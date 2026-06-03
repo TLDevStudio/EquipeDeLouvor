@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ministério de Louvor</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap"
     rel="stylesheet">
@@ -13,22 +12,12 @@
 
 <body>
 
-  <!-- LOADING OVERLAY -->
-  <div id="loading-overlay">
-    <div id="loading-box">
-      <div id="loading-cross">✝</div>
-      <p id="loading-text">Carregando ministério...</p>
-    </div>
-  </div>
-
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast"></div>
-
   <!-- HERO -->
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="border-top-deco"></div>
-    <div class="cross-deco">✝ ✝ ✝</div>
+
+    <div class="cross-deco" style="font-size:80px;top:10px;letter-spacing:0.5em;opacity:0.06;">✝ ✝ ✝</div>
 
     <div class="hero-photo-ring" style="position:relative;z-index:1;">
       <img id="hero-img" src="" alt="Foto do ministério">
@@ -41,7 +30,6 @@
       </div>
       <input type="file" accept="image/*" onchange="setHeroPhoto(event)"
         title="Clique para adicionar foto do ministério">
-      <div id="hero-uploading" class="uploading-badge" style="display:none;">Enviando...</div>
     </div>
 
     <p class="church-name" style="position:relative;z-index:1;">Igreja Assembleia de Deus</p>
@@ -74,22 +62,14 @@
         </div>
         <div class="input-row">
           <input type="text" id="ens-tom" placeholder="Tom (ex: Ré, Sol, Lá m)">
-          <select id="ens-tipo">
-            <option value="Louvor">Louvor</option>
-            <option value="Adoração">Adoração</option>
-            <option value="Hino">Hino Clássico</option>
-            <option value="Especial">Especial</option>
-          </select>
+          <input type="text" id="ens-link" placeholder="Link do YouTube (opcional)">
         </div>
-        <div class="input-row">
-          <textarea id="ens-letra" rows="4" placeholder="Cole aqui a letra da música (opcional)..."></textarea>
-        </div>
-        <div class="input-row">
-          <label class="audio-upload-label" id="ens-audio-label">
-            🎵 Selecionar arquivo de áudio (.mp3, .m4a, .wav)
-            <input type="file" id="ens-audio" accept="audio/*">
-          </label>
-        </div>
+        <select id="ens-tipo">
+          <option value="Louvor">Louvor</option>
+          <option value="Adoração">Adoração</option>
+          <option value="Hino">Hino Clássico</option>
+          <option value="Especial">Especial</option>
+        </select>
         <button class="btn-gold" onclick="addMusica()">+ Adicionar ao Repertório</button>
       </div>
 
@@ -147,7 +127,7 @@
       <h2 class="section-title">Galeria do Ministério</h2>
       <p class="section-subtitle">Momentos especiais do nosso grupo</p>
 
-      <div class="fotos-section">
+      <div class="fotos-section" id="fotos-varoes">
         <div class="fotos-section-header">
           <h3>Festa dos Varões</h3>
           <label class="btn-sm foto-upload-btn">
@@ -163,7 +143,7 @@
         </div>
       </div>
 
-      <div class="fotos-section">
+      <div class="fotos-section" id="fotos-irmas">
         <div class="fotos-section-header">
           <h3>Festa das Irmãs</h3>
           <label class="btn-sm foto-upload-btn">
@@ -179,7 +159,7 @@
         </div>
       </div>
 
-      <div class="fotos-section">
+      <div class="fotos-section" id="fotos-jovens">
         <div class="fotos-section-header">
           <h3>Festa dos Jovens</h3>
           <label class="btn-sm foto-upload-btn">
@@ -212,13 +192,8 @@
     ✝ Ministério de Louvor — Para a Glória de Deus ✝
   </footer>
 
-  <!-- Firebase SDKs (compat) -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
-
-  <script type="module" src="./js/script.js"></script>
-
+  <script src="./js/script.js"></script>
+ 
 </body>
 
 </html>
