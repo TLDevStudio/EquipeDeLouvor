@@ -1,6 +1,3 @@
-// =============================================
-// FIREBASE CONFIG
-// =============================================
 const firebaseConfig = {
     apiKey: "AIzaSyCdcWyC0EsuhcJSzdwcRxL2W8Cgc5O7-WM",
     authDomain: "equipedelouvor-94351.firebaseapp.com",
@@ -13,15 +10,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// =============================================
-// ESTADO LOCAL
-// =============================================
 let letras = [];
 let festas = { varoes: { secoes: [] }, irmas: { secoes: [] }, jovens: { secoes: [] } };
 
-// =============================================
-// LOADING / TOAST
-// =============================================
 function showLoading(msg) {
     document.getElementById('loading-overlay').style.display = 'flex';
     document.getElementById('loading-text').textContent = msg || 'Carregando...';
@@ -37,9 +28,6 @@ function showToast(msg, tipo) {
     t._timer = setTimeout(() => { t.className = ''; }, 3000);
 }
 
-// =============================================
-// INICIALIZAÇÃO
-// =============================================
 async function init() {
     showLoading('Carregando ministério...');
     try {
@@ -51,9 +39,6 @@ async function init() {
     hideLoading();
 }
 
-// =============================================
-// NAVEGAÇÃO
-// =============================================
 function showPage(id, btn) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -68,9 +53,6 @@ function showFesta(id, btn) {
     btn.classList.add('active');
 }
 
-// =============================================
-// LETRAS DOS HINOS — Firestore
-// =============================================
 async function carregarLetras() {
     const snap = await db.collection('letras').orderBy('criadoEm', 'asc').get();
     letras = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -150,9 +132,6 @@ function closeModal(e) {
         document.getElementById('modal').classList.remove('open');
 }
 
-// =============================================
-// REPERTÓRIO DAS FESTAS — Firestore
-// =============================================
 async function carregarFestas() {
     for (const festa of ['varoes', 'irmas', 'jovens']) {
         const snap = await db.collection('festas').doc(festa).get();
@@ -230,9 +209,6 @@ function renderFestas(festa) {
   `).join('');
 }
 
-// =============================================
-// UTILITÁRIO
-// =============================================
 function escapeHtml(str) {
     if (!str) return '';
     return str
@@ -242,7 +218,4 @@ function escapeHtml(str) {
         .replace(/"/g, '&quot;');
 }
 
-// =============================================
-// START
-// =============================================
 document.addEventListener('DOMContentLoaded', init);

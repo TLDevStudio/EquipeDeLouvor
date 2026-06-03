@@ -13,7 +13,6 @@
 
 <body>
 
-  <!-- LOADING -->
   <div id="loading-overlay">
     <div id="loading-box">
       <div id="loading-cross">✝</div>
@@ -21,62 +20,68 @@
     </div>
   </div>
 
-  <!-- TOAST -->
   <div id="toast"></div>
 
-  <!-- HERO -->
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="border-top-deco"></div>
     <div class="cross-deco" style="font-size:80px;top:10px;letter-spacing:0.5em;opacity:0.06;">✝ ✝ ✝</div>
 
     <div class="hero-photo-ring" style="position:relative;z-index:1;">
-      <!-- Coloque aqui a foto do ministério: <img src="./img/ministerio.jpg" ...> -->
-      <img id="hero-img" src="./img/ministerio.jpg" alt="Foto do ministério"
+      <img id="hero-img" src="./img/foto-equipe.png" alt="Foto do ministério"
         onerror="this.style.display='none';document.getElementById('hero-placeholder').style.display='flex';">
-      <div class="hero-photo-placeholder" id="hero-placeholder">
+      <!-- <div class="hero-photo-placeholder" id="hero-placeholder">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <circle cx="12" cy="8" r="4" />
           <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
         </svg>
         <span>Foto do ministério</span>
-      </div>
+      </div> -->
     </div>
 
-    <p class="church-name" style="position:relative;z-index:1;">Igreja Assembleia de Deus</p>
-    <h1 class="ministry-name" style="position:relative;z-index:1;">Ministério de <span>Louvor</span></h1>
+    <p class="church-name" style="position:relative;z-index:1;">Igreja Assembleia de Deus em Carmary</p>
+    <h1 class="ministry-name" style="position:relative;z-index:1;">Equipe de <span>Louvor</span></h1>
     <div class="divider-gold" style="position:relative;z-index:1;"></div>
     <p class="hero-verse" style="position:relative;z-index:1;">"Cantai ao Senhor um cântico novo; cantai ao Senhor,
       todas as terras." — Salmos 96:1</p>
   </div>
 
-  <!-- NAV -->
   <nav class="nav">
-    <button class="nav-btn active" onclick="showPage('ensaio',this)">🎵 Músicas de Ensaio</button>
+    <button class="nav-btn active" onclick="showPage('ensaio',this)">🎵 Músicas para Ensaiar</button>
     <button class="nav-btn" onclick="showPage('letras',this)">📖 Letras dos Hinos</button>
     <button class="nav-btn" onclick="showPage('festas',this)">🎶 Repertório das Festas</button>
-    <button class="nav-btn" onclick="showPage('fotos',this)">📷 Galeria</button>
+    <!-- <button class="nav-btn" onclick="showPage('fotos',this)">📷 Galeria</button> (botão de galeria desativado por enquanto)-->
   </nav>
 
-  <!-- ENSAIO -->
   <div id="page-ensaio" class="page active">
     <div class="section-container">
-      <h2 class="section-title">Músicas para Ensaio</h2>
+      <h2 class="section-title">Músicas para Ensaiar (P/ Os Cultos)</h2>
       <p class="section-subtitle">Ouça e estude as músicas do repertório</p>
-      <!-- 
-        DESENVOLVEDOR: adicione as músicas aqui.
-        Estrutura de pastas: ./audio/nome-da-musica.mp3
-        Copie e cole o bloco <div class="music-card"> para cada música nova.
-      -->
-      <div class="music-list" id="music-list">
 
-        <!-- EXEMPLO — remova e coloque as músicas reais -->
+      <div class="music-list" id="music-list">
         <div class="music-card">
           <div class="music-info">
-            <h4>Nome da Música</h4>
+            <h4>Andréa Fontes</h4>
             <p>Artista · Tom: Ré</p>
             <div class="audio-player-wrap">
-              <audio controls src="./audio/exemplo.mp3" preload="none"></audio>
+              <audio id="audio-joaoViu" src="./music/joaoViu.mp3" preload="none"></audio>
+              <div class="custom-player" data-audio="audio-joaoViu">
+                <button class="cp-play-btn" onclick="togglePlay('audio-joaoViu', this)" aria-label="Play/Pause">
+                  <svg class="cp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                  <svg class="cp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                  </svg>
+                </button>
+                <div class="cp-progress-wrap">
+                  <div class="cp-progress-bar">
+                    <div class="cp-progress-fill" id="fill-audio-joaoViu"></div>
+                    <div class="cp-progress-thumb" id="thumb-audio-joaoViu"></div>
+                  </div>
+                </div>
+                <span class="cp-time" id="time-audio-joaoViu">0:00</span>
+              </div>
             </div>
           </div>
           <div class="music-actions">
@@ -88,7 +93,6 @@
     </div>
   </div>
 
-  <!-- LETRAS -->
   <div id="page-letras" class="page">
     <div class="section-container">
       <h2 class="section-title">Letras dos Hinos</h2>
@@ -105,7 +109,6 @@
     </div>
   </div>
 
-  <!-- FESTAS -->
   <div id="page-festas" class="page">
     <div class="section-container">
       <h2 class="section-title">Repertório das Festas</h2>
@@ -118,41 +121,357 @@
       </div>
 
       <div id="festa-varoes" class="festa-content active">
-        <div id="sections-varoes"></div>
-        <button class="btn-sm" onclick="addSecao('varoes')">+ Nova Seção</button>
+
+        <!-- Música 1 -->
+        <div class="festa-section">
+          <div class="festa-section-title">Música 1</div>
+          <div class="festa-music-cards">
+
+            <div class="festa-music-card">
+              <div class="fmc-info">
+                <span class="fmc-num">01</span>
+                <div class="fmc-meta">
+                  <strong>João Viu</strong>
+                  <span>Andréa Fontes</span>
+                  <span>Tom: F</span>
+                </div>
+              </div>
+              <div class="audio-player-wrap">
+                <audio id="audio-v-ab-01" src="./music/joaoViu.mp3" preload="none"></audio>
+                <div class="custom-player" data-audio="audio-v-ab-01">
+                  <button class="cp-play-btn" onclick="togglePlay('audio-v-ab-01', this)" aria-label="Play/Pause">
+                    <svg class="cp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="cp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                  </button>
+                  <div class="cp-progress-wrap">
+                    <div class="cp-progress-bar">
+                      <div class="cp-progress-fill" id="fill-audio-v-ab-01"></div>
+                      <div class="cp-progress-thumb" id="thumb-audio-v-ab-01"></div>
+                    </div>
+                  </div>
+                  <span class="cp-time" id="time-audio-v-ab-01">0:00</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /Música 1 -->
+
+        <!-- Música 2 -->
+        <div class="festa-section">
+          <div class="festa-section-title">Música 2</div>
+          <div class="festa-music-cards">
+
+            <div class="festa-music-card">
+              <div class="fmc-info">
+                <span class="fmc-num">02</span>
+                <div class="fmc-meta">
+                  <strong>Cordeiro e Leão</strong>
+                  <span>Jefferson e Suellen</span>
+                  <span>Tom: D</span>
+                </div>
+              </div>
+              <div class="audio-player-wrap">
+                <audio id="audio-v-ad-02" src="./music/cordeiro-e-leao.mp3" preload="none"></audio>
+                <div class="custom-player" data-audio="audio-v-ad-02">
+                  <button class="cp-play-btn" onclick="togglePlay('audio-v-ad-02', this)" aria-label="Play/Pause">
+                    <svg class="cp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="cp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                  </button>
+                  <div class="cp-progress-wrap">
+                    <div class="cp-progress-bar">
+                      <div class="cp-progress-fill" id="fill-audio-v-ad-02"></div>
+                      <div class="cp-progress-thumb" id="thumb-audio-v-ad-02"></div>
+                    </div>
+                  </div>
+                  <span class="cp-time" id="time-audio-v-ad-02">0:00</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /Música 2 -->
+
+        <!-- Música 3 -->
+        <div class="festa-section">
+          <div class="festa-section-title">Música 3</div>
+          <div class="festa-music-cards">
+
+            <div class="festa-music-card">
+              <div class="fmc-info">
+                <span class="fmc-num">03</span>
+                <div class="fmc-meta">
+                  <strong>Harpa Cristã 304</strong>
+                  <span>Harpa no Groove</span>
+                  <span>Tom: G#</span>
+                </div>
+              </div>
+              <div class="audio-player-wrap">
+                <audio id="audio-v-ad-03" src="./music/harpa-no-groove.mp3" preload="none"></audio>
+                <div class="custom-player" data-audio="audio-v-ad-03">
+                  <button class="cp-play-btn" onclick="togglePlay('audio-v-ad-03', this)" aria-label="Play/Pause">
+                    <svg class="cp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="cp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                  </button>
+                  <div class="cp-progress-wrap">
+                    <div class="cp-progress-bar">
+                      <div class="cp-progress-fill" id="fill-audio-v-ad-03"></div>
+                      <div class="cp-progress-thumb" id="thumb-audio-v-ad-03"></div>
+                    </div>
+                  </div>
+                  <span class="cp-time" id="time-audio-v-ad-01">0:00</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /Música 3 -->
+
+        <!-- Música 4 -->
+        <div class="festa-section">
+          <div class="festa-section-title">Música 4</div>
+          <div class="festa-music-cards">
+
+            <div class="festa-music-card">
+              <div class="fmc-info">
+                <span class="fmc-num">04</span>
+                <div class="fmc-meta">
+                  <strong>Medley Arrebatamento - Santifica - Sete Trombetas - A geração do arrebatamento</strong>
+                  <span>Vários Cantores</span>
+                  <span>Tom: Gm</span>
+                </div>
+              </div>
+              <div class="audio-player-wrap">
+                <audio id="audio-v-ad-04" src="./music/medley.mp3" preload="none"></audio>
+                <div class="custom-player" data-audio="audio-v-ad-04">
+                  <button class="cp-play-btn" onclick="togglePlay('audio-v-ad-04', this)" aria-label="Play/Pause">
+                    <svg class="cp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="cp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                  </button>
+                  <div class="cp-progress-wrap">
+                    <div class="cp-progress-bar">
+                      <div class="cp-progress-fill" id="fill-audio-v-ad-04"></div>
+                      <div class="cp-progress-thumb" id="thumb-audio-v-ad-04"></div>
+                    </div>
+                  </div>
+                  <span class="cp-time" id="time-audio-v-ad-01">0:00</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /Música 4 -->
+
+        <!-- Música 5 -->
+        <div class="festa-section">
+          <div class="festa-section-title">Música 5</div>
+          <div class="festa-music-cards">
+
+            <div class="festa-music-card">
+              <div class="fmc-info">
+                <span class="fmc-num">05</span>
+                <div class="fmc-meta">
+                  <strong>Portões Celestiais</strong>
+                  <span>Michelle Nascimento</span>
+                  <span>Tom: A</span>
+                </div>
+              </div>
+              <div class="audio-player-wrap">
+                <audio id="audio-v-ad-05" src="./music/portoes-celestiais.mp3" preload="none"></audio>
+                <div class="custom-player" data-audio="audio-v-ad-05">
+                  <button class="cp-play-btn" onclick="togglePlay('audio-v-ad-05', this)" aria-label="Play/Pause">
+                    <svg class="cp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="cp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                  </button>
+                  <div class="cp-progress-wrap">
+                    <div class="cp-progress-bar">
+                      <div class="cp-progress-fill" id="fill-audio-v-ad-05"></div>
+                      <div class="cp-progress-thumb" id="thumb-audio-v-ad-05"></div>
+                    </div>
+                  </div>
+                  <span class="cp-time" id="time-audio-v-ad-01">0:00</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /Música 5 -->
+
+        <!-- Música 6 -->
+        <div class="festa-section">
+          <div class="festa-section-title">Música 6</div>
+          <div class="festa-music-cards">
+
+            <div class="festa-music-card">
+              <div class="fmc-info">
+                <span class="fmc-num">06</span>
+                <div class="fmc-meta">
+                  <strong>Abram-se os Portões</strong>
+                  <span>Cassiane</span>
+                  <span>Tom: Gm</span>
+                </div>
+              </div>
+              <div class="audio-player-wrap">
+                <audio id="audio-v-ad-06" src="./music/abram-se-os-portoes.mp3" preload="none"></audio>
+                <div class="custom-player" data-audio="audio-v-ad-06">
+                  <button class="cp-play-btn" onclick="togglePlay('audio-v-ad-06', this)" aria-label="Play/Pause">
+                    <svg class="cp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="cp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                  </button>
+                  <div class="cp-progress-wrap">
+                    <div class="cp-progress-bar">
+                      <div class="cp-progress-fill" id="fill-audio-v-ad-06"></div>
+                      <div class="cp-progress-thumb" id="thumb-audio-v-ad-06"></div>
+                    </div>
+                  </div>
+                  <span class="cp-time" id="time-audio-v-ad-01">0:00</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /Música 6 -->
+
       </div>
+
       <div id="festa-irmas" class="festa-content">
-        <div id="sections-irmas"></div>
-        <button class="btn-sm" onclick="addSecao('irmas')">+ Nova Seção</button>
+
+        <!-- Música 1 -->
+        <div class="festa-section">
+          <div class="festa-section-title">Abertura</div>
+          <div class="festa-music-cards">
+
+
+            <div class="festa-music-card">
+              <div class="fmc-info">
+                <span class="fmc-num">01</span>
+                <div class="fmc-meta">
+                  <strong>Nome da Música</strong>
+                  <span>Artista · Tom: Mi</span>
+                </div>
+              </div>
+              <div class="audio-player-wrap">
+                <audio id="audio-i-ab-01" src="./music/nome-do-arquivo.mp3" preload="none"></audio>
+                <div class="custom-player" data-audio="audio-i-ab-01">
+                  <button class="cp-play-btn" onclick="togglePlay('audio-i-ab-01', this)" aria-label="Play/Pause">
+                    <svg class="cp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="cp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                  </button>
+                  <div class="cp-progress-wrap">
+                    <div class="cp-progress-bar">
+                      <div class="cp-progress-fill" id="fill-audio-i-ab-01"></div>
+                      <div class="cp-progress-thumb" id="thumb-audio-i-ab-01"></div>
+                    </div>
+                  </div>
+                  <span class="cp-time" id="time-audio-i-ab-01">0:00</span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+        <!-- /Música 1 -->
+
       </div>
+
       <div id="festa-jovens" class="festa-content">
-        <div id="sections-jovens"></div>
-        <button class="btn-sm" onclick="addSecao('jovens')">+ Nova Seção</button>
+
+        <!-- Música 1 -->
+        <div class="festa-section">
+          <div class="festa-section-title">Abertura</div>
+          <div class="festa-music-cards">
+
+
+            <div class="festa-music-card">
+              <div class="fmc-info">
+                <span class="fmc-num">01</span>
+                <div class="fmc-meta">
+                  <strong>Nome da Música</strong>
+                  <span>Artista · Tom: Sol</span>
+                </div>
+              </div>
+              <div class="audio-player-wrap">
+                <audio id="audio-j-ab-01" src="./music/nome-do-arquivo.mp3" preload="none"></audio>
+                <div class="custom-player" data-audio="audio-j-ab-01">
+                  <button class="cp-play-btn" onclick="togglePlay('audio-j-ab-01', this)" aria-label="Play/Pause">
+                    <svg class="cp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="cp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                  </button>
+                  <div class="cp-progress-wrap">
+                    <div class="cp-progress-bar">
+                      <div class="cp-progress-fill" id="fill-audio-j-ab-01"></div>
+                      <div class="cp-progress-thumb" id="thumb-audio-j-ab-01"></div>
+                    </div>
+                  </div>
+                  <span class="cp-time" id="time-audio-j-ab-01">0:00</span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+        <!-- /Música 1 -->
+
       </div>
+
     </div>
   </div>
 
-  <!-- FOTOS -->
+  <!-- Seção para fotos mas ainda está em teste (desativei o botão lá em cima)-->
   <div id="page-fotos" class="page">
     <div class="section-container">
       <h2 class="section-title">Galeria do Ministério</h2>
       <p class="section-subtitle">Momentos especiais do nosso grupo</p>
-      <!--
-        DESENVOLVEDOR: adicione as fotos abaixo.
-        Estrutura de pastas: ./img/fotos/varoes/foto1.jpg  etc.
-        Copie o bloco <div class="photo-item"> para cada foto nova.
-      -->
 
       <div class="fotos-section">
         <div class="fotos-section-header">
           <h3>Festa dos Varões</h3>
         </div>
         <div class="photos-grid" id="grid-fotos-varoes">
-          <!-- EXEMPLO -->
           <div class="photo-item">
             <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Em breve</span></div>
           </div>
-          <!-- <div class="photo-item"><img src="./img/fotos/varoes/foto1.jpg" alt="Festa dos Varões"></div> -->
+          <!-- <div class="photo-item"><img src="" alt="Festa dos Varões"></div> -->
         </div>
       </div>
 
@@ -164,7 +483,7 @@
           <div class="photo-item">
             <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Em breve</span></div>
           </div>
-          <!-- <div class="photo-item"><img src="./img/fotos/irmas/foto1.jpg" alt="Festa das Irmãs"></div> -->
+          <!-- <div class="photo-item"><img src="" alt="Festa das Irmãs"></div> -->
         </div>
       </div>
 
@@ -176,14 +495,12 @@
           <div class="photo-item">
             <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Em breve</span></div>
           </div>
-          <!-- <div class="photo-item"><img src="./img/fotos/jovens/foto1.jpg" alt="Festa dos Jovens"></div> -->
+          <!-- <div class="photo-item"><img src="" alt="Festa dos Jovens"></div> -->
         </div>
       </div>
-
     </div>
-  </div>
+  </div> <!-- final da seção para fotos -->
 
-  <!-- MODAL LETRA -->
   <div class="modal-overlay" id="modal" onclick="closeModal(event)">
     <div class="modal-box">
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -195,10 +512,142 @@
 
   <footer>✝ Ministério de Louvor — Para a Glória de Deus ✝</footer>
 
-  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script src="./js/script.js"></script>
+
+  <script>
+    function togglePlay(audioId, btn) {
+      const audio = document.getElementById(audioId);
+      const allAudios = document.querySelectorAll('audio');
+
+      allAudios.forEach(a => {
+        if (a.id !== audioId && !a.paused) {
+          a.pause();
+          const otherBtn = document.querySelector(`[data-audio="${a.id}"] .cp-play-btn`);
+          if (otherBtn) resetPlayerUI(otherBtn);
+        }
+      });
+
+      if (audio.paused) {
+        audio.play();
+        btn.querySelector('.cp-icon-play').style.display = 'none';
+        btn.querySelector('.cp-icon-pause').style.display = 'block';
+      } else {
+        audio.pause();
+        resetPlayerUI(btn);
+      }
+    }
+
+    function resetPlayerUI(btn) {
+      btn.querySelector('.cp-icon-play').style.display = 'block';
+      btn.querySelector('.cp-icon-pause').style.display = 'none';
+    }
+
+    function formatTime(sec) {
+      if (isNaN(sec) || !isFinite(sec)) return '0:00';
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function updateBar(audioId, ratio) {
+      const pct = Math.min(Math.max(ratio, 0), 1) * 100;
+      const fill = document.getElementById('fill-' + audioId);
+      const thumb = document.getElementById('thumb-' + audioId);
+      if (fill) fill.style.width = pct + '%';
+      if (thumb) thumb.style.left = pct + '%';
+    }
+
+    function getRatio(wrap, clientX) {
+      const rect = wrap.getBoundingClientRect();
+      return (clientX - rect.left) / rect.width;
+    }
+
+    function initPlayer(audioId) {
+      const audio = document.getElementById(audioId);
+      const wrap = document.querySelector(`[data-audio="${audioId}"] .cp-progress-wrap`);
+      const timeEl = document.getElementById('time-' + audioId);
+      const btn = document.querySelector(`[data-audio="${audioId}"] .cp-play-btn`);
+      if (!audio || !wrap) return;
+
+      let dragging = false;
+
+      audio.addEventListener('timeupdate', () => {
+        if (dragging || !audio.duration) return;
+        updateBar(audioId, audio.currentTime / audio.duration);
+        if (timeEl) timeEl.textContent = formatTime(audio.currentTime);
+      });
+
+      audio.addEventListener('ended', () => {
+        updateBar(audioId, 0);
+        if (timeEl) timeEl.textContent = '0:00';
+        if (btn) resetPlayerUI(btn);
+      });
+
+      wrap.addEventListener('click', (e) => {
+        if (!audio.duration) return;
+        const ratio = getRatio(wrap, e.clientX);
+        audio.currentTime = ratio * audio.duration;
+        updateBar(audioId, ratio);
+        if (timeEl) timeEl.textContent = formatTime(audio.currentTime);
+      });
+
+      wrap.addEventListener('mousedown', (e) => {
+        dragging = true;
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+        e.preventDefault();
+      });
+
+      function onMouseMove(e) {
+        if (!dragging || !audio.duration) return;
+        const ratio = getRatio(wrap, e.clientX);
+        updateBar(audioId, ratio);
+        if (timeEl) timeEl.textContent = formatTime(ratio * audio.duration);
+      }
+
+      function onMouseUp(e) {
+        if (!dragging) return;
+        dragging = false;
+        if (audio.duration) {
+          const ratio = getRatio(wrap, e.clientX);
+          audio.currentTime = Math.min(Math.max(ratio, 0), 1) * audio.duration;
+          updateBar(audioId, ratio);
+        }
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      }
+
+      wrap.addEventListener('touchstart', (e) => {
+        dragging = true;
+        e.preventDefault();
+      }, { passive: false });
+
+      wrap.addEventListener('touchmove', (e) => {
+        if (!dragging || !audio.duration) return;
+        const ratio = getRatio(wrap, e.touches[0].clientX);
+        updateBar(audioId, ratio);
+        if (timeEl) timeEl.textContent = formatTime(ratio * audio.duration);
+        e.preventDefault();
+      }, { passive: false });
+
+      wrap.addEventListener('touchend', (e) => {
+        if (!dragging) return;
+        dragging = false;
+        if (audio.duration) {
+          const ratio = getRatio(wrap, e.changedTouches[0].clientX);
+          audio.currentTime = Math.min(Math.max(ratio, 0), 1) * audio.duration;
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('audio').forEach(audio => {
+        initPlayer(audio.id);
+      });
+    });
+  </script>
 
 </body>
 
