@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="border-top-deco"></div>
+
+    <div class="cross-deco" style="font-size:80px;top:10px;letter-spacing:0.5em;opacity:0.06;">✝ ✝ ✝</div>
+
+    <div class="hero-photo-ring" style="position:relative;z-index:1;">
+      <img id="hero-img" src="" alt="Foto do ministério">
+      <div class="hero-photo-placeholder" id="hero-placeholder">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+        </svg>
+        <span>Adicionar foto</span>
+      </div>
+      <input type="file" accept="image/*" onchange="setHeroPhoto(event)"
+        title="Clique para adicionar foto do ministério">
+    </div>
+
+    <p class="church-name" style="position:relative;z-index:1;">Igreja Assembleia de Deus</p>
+    <h1 class="ministry-name" style="position:relative;z-index:1;">Ministério de <span>Louvor</span></h1>
+    <div class="divider-gold" style="position:relative;z-index:1;"></div>
+    <p class="hero-verse" style="position:relative;z-index:1;">"Cantai ao Senhor um cântico novo; cantai ao Senhor,
+      todas as terras." — Salmos 96:1</p>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showPage('ensaio',this)">🎵 Músicas de Ensaio</button>
+    <button class="nav-btn" onclick="showPage('letras',this)">📖 Letras dos Hinos</button>
+    <button class="nav-btn" onclick="showPage('festas',this)">🎶 Repertório das Festas</button>
+    <button class="nav-btn" onclick="showPage('fotos',this)">📷 Galeria</button>
+  </nav>
+
+  <!-- PÁGINAS -->
+
+  <!-- ENSAIO -->
+  <div id="page-ensaio" class="page active">
+    <div class="section-container">
+      <h2 class="section-title">Músicas para Ensaio</h2>
+      <p class="section-subtitle">Adicione aqui as músicas que o ministério precisa estudar em casa</p>
+
+      <div class="music-add-area">
+        <div class="input-row">
+          <input type="text" id="ens-nome" placeholder="Nome da música">
+          <input type="text" id="ens-artista" placeholder="Artista / Cantor">
+        </div>
+        <div class="input-row">
+          <input type="text" id="ens-tom" placeholder="Tom (ex: Ré, Sol, Lá m)">
+          <input type="text" id="ens-link" placeholder="Link do YouTube (opcional)">
+        </div>
+        <select id="ens-tipo">
+          <option value="Louvor">Louvor</option>
+          <option value="Adoração">Adoração</option>
+          <option value="Hino">Hino Clássico</option>
+          <option value="Especial">Especial</option>
+        </select>
+        <button class="btn-gold" onclick="addMusica()">+ Adicionar ao Repertório</button>
+      </div>
+
+      <div class="music-list" id="music-list"></div>
+    </div>
+  </div>
+
+  <!-- LETRAS -->
+  <div id="page-letras" class="page">
+    <div class="section-container">
+      <h2 class="section-title">Letras dos Hinos</h2>
+      <p class="section-subtitle">Clique em um hino para ver a letra completa durante o culto</p>
+
+      <div class="letter-add-area">
+        <input type="text" id="let-titulo" placeholder="Título do hino">
+        <input type="text" id="let-autor" placeholder="Autor (opcional)">
+        <textarea id="let-letra" rows="6" placeholder="Cole aqui a letra completa do hino..."></textarea>
+        <button class="btn-gold" onclick="addLetra()">+ Salvar Hino</button>
+      </div>
+
+      <div class="letters-grid" id="letters-grid"></div>
+    </div>
+  </div>
+
+  <!-- FESTAS -->
+  <div id="page-festas" class="page">
+    <div class="section-container">
+      <h2 class="section-title">Repertório das Festas</h2>
+      <p class="section-subtitle">Organize as músicas de cada celebração</p>
+
+      <div class="festas-tabs">
+        <button class="festa-tab active" onclick="showFesta('varoes',this)">🎷 Festa dos Varões</button>
+        <button class="festa-tab" onclick="showFesta('irmas',this)">🌸 Festa das Irmãs</button>
+        <button class="festa-tab" onclick="showFesta('jovens',this)">⚡ Festa dos Jovens</button>
+      </div>
+
+      <div id="festa-varoes" class="festa-content active">
+        <div id="sections-varoes"></div>
+        <button class="btn-sm" onclick="addSecao('varoes')">+ Nova Seção</button>
+      </div>
+      <div id="festa-irmas" class="festa-content">
+        <div id="sections-irmas"></div>
+        <button class="btn-sm" onclick="addSecao('irmas')">+ Nova Seção</button>
+      </div>
+      <div id="festa-jovens" class="festa-content">
+        <div id="sections-jovens"></div>
+        <button class="btn-sm" onclick="addSecao('jovens')">+ Nova Seção</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOTOS -->
+  <div id="page-fotos" class="page">
+    <div class="section-container">
+      <h2 class="section-title">Galeria do Ministério</h2>
+      <p class="section-subtitle">Momentos especiais do nosso grupo</p>
+
+      <div class="fotos-section" id="fotos-varoes">
+        <div class="fotos-section-header">
+          <h3>Festa dos Varões</h3>
+          <label class="btn-sm foto-upload-btn">
+            + Adicionar Fotos
+            <input type="file" accept="image/*" multiple onchange="addFotos(event,'varoes')">
+          </label>
+        </div>
+        <div class="photos-grid" id="grid-fotos-varoes">
+          <div class="photo-item">
+            <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Sem fotos
+                ainda</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fotos-section" id="fotos-irmas">
+        <div class="fotos-section-header">
+          <h3>Festa das Irmãs</h3>
+          <label class="btn-sm foto-upload-btn">
+            + Adicionar Fotos
+            <input type="file" accept="image/*" multiple onchange="addFotos(event,'irmas')">
+          </label>
+        </div>
+        <div class="photos-grid" id="grid-fotos-irmas">
+          <div class="photo-item">
+            <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Sem fotos
+                ainda</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fotos-section" id="fotos-jovens">
+        <div class="fotos-section-header">
+          <h3>Festa dos Jovens</h3>
+          <label class="btn-sm foto-upload-btn">
+            + Adicionar Fotos
+            <input type="file" accept="image/*" multiple onchange="addFotos(event,'jovens')">
+          </label>
+        </div>
+        <div class="photos-grid" id="grid-fotos-jovens">
+          <div class="photo-item">
+            <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Sem fotos
+                ainda</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL LETRA -->
+  <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h2 class="modal-title" id="modal-title"></h2>
+      <div class="divider-gold" style="margin:0 0 1.5rem;"></div>
+      <pre class="modal-content" id="modal-body"></pre>
+    </div>
+  </div>
+
+  <footer>
+    ✝ Ministério de Louvor — Para a Glória de Deus ✝
+  </footer>
+
+  <script src="./js/script.js"></script>
+ 
+</body>
+
+</html>
