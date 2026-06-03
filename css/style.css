@@ -1006,3 +1006,103 @@
     #page-ensaio .music-add-area .input-row textarea:focus {
       border-color: #C9A84C;
     }
+
+    /* =============================================
+   ADICIONE ESTE BLOCO AO FINAL DO SEU style.css
+   ============================================= */
+
+    /* Loading overlay */
+    #loading-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #0D0B08;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    #loading-box {
+      text-align: center;
+    }
+
+    #loading-cross {
+      font-size: 48px;
+      color: #C9A84C;
+      animation: pulsar 1.4s ease-in-out infinite;
+    }
+
+    #loading-text {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      color: #9A8A6A;
+    }
+
+    @keyframes pulsar {
+
+      0%,
+      100% {
+        opacity: 0.3;
+        transform: scale(0.95);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #2A2318;
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      color: #F5EDD8;
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      padding: 12px 24px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: all 0.35s ease;
+      z-index: 8888;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    #toast.toast-show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    #toast.toast-erro {
+      border-color: rgba(220, 60, 60, 0.5);
+      color: #f08080;
+    }
+
+    #toast.toast-aviso {
+      border-color: rgba(220, 180, 60, 0.5);
+      color: #e8cc7a;
+    }
+
+    /* Player de áudio no card de ensaio */
+    .audio-player-wrap {
+      margin-top: 8px;
+      background: #1A1610;
+      border: 1px solid rgba(201, 168, 76, 0.12);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+
+    .audio-player-wrap audio {
+      width: 100%;
+      height: 36px;
+      border-radius: 6px;
+      outline: none;
+    }

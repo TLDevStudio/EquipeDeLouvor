@@ -13,7 +13,7 @@
 
 <body>
 
-  <!-- LOADING OVERLAY -->
+  <!-- LOADING -->
   <div id="loading-overlay">
     <div id="loading-box">
       <div id="loading-cross">✝</div>
@@ -21,27 +21,26 @@
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
+  <!-- TOAST -->
   <div id="toast"></div>
 
   <!-- HERO -->
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="border-top-deco"></div>
-    <div class="cross-deco">✝ ✝ ✝</div>
+    <div class="cross-deco" style="font-size:80px;top:10px;letter-spacing:0.5em;opacity:0.06;">✝ ✝ ✝</div>
 
     <div class="hero-photo-ring" style="position:relative;z-index:1;">
-      <img id="hero-img" src="" alt="Foto do ministério">
+      <!-- Coloque aqui a foto do ministério: <img src="./img/ministerio.jpg" ...> -->
+      <img id="hero-img" src="./img/ministerio.jpg" alt="Foto do ministério"
+        onerror="this.style.display='none';document.getElementById('hero-placeholder').style.display='flex';">
       <div class="hero-photo-placeholder" id="hero-placeholder">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <circle cx="12" cy="8" r="4" />
           <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
         </svg>
-        <span>Adicionar foto</span>
+        <span>Foto do ministério</span>
       </div>
-      <input type="file" accept="image/*" onchange="setHeroPhoto(event)"
-        title="Clique para adicionar foto do ministério">
-      <div id="hero-uploading" class="uploading-badge" style="display:none;">Enviando...</div>
     </div>
 
     <p class="church-name" style="position:relative;z-index:1;">Igreja Assembleia de Deus</p>
@@ -59,41 +58,33 @@
     <button class="nav-btn" onclick="showPage('fotos',this)">📷 Galeria</button>
   </nav>
 
-  <!-- PÁGINAS -->
-
   <!-- ENSAIO -->
   <div id="page-ensaio" class="page active">
     <div class="section-container">
       <h2 class="section-title">Músicas para Ensaio</h2>
-      <p class="section-subtitle">Adicione aqui as músicas que o ministério precisa estudar em casa</p>
+      <p class="section-subtitle">Ouça e estude as músicas do repertório</p>
+      <!-- 
+        DESENVOLVEDOR: adicione as músicas aqui.
+        Estrutura de pastas: ./audio/nome-da-musica.mp3
+        Copie e cole o bloco <div class="music-card"> para cada música nova.
+      -->
+      <div class="music-list" id="music-list">
 
-      <div class="music-add-area">
-        <div class="input-row">
-          <input type="text" id="ens-nome" placeholder="Nome da música">
-          <input type="text" id="ens-artista" placeholder="Artista / Cantor">
+        <!-- EXEMPLO — remova e coloque as músicas reais -->
+        <div class="music-card">
+          <div class="music-info">
+            <h4>Nome da Música</h4>
+            <p>Artista · Tom: Ré</p>
+            <div class="audio-player-wrap">
+              <audio controls src="./audio/exemplo.mp3" preload="none"></audio>
+            </div>
+          </div>
+          <div class="music-actions">
+            <span class="music-tag">Louvor</span>
+          </div>
         </div>
-        <div class="input-row">
-          <input type="text" id="ens-tom" placeholder="Tom (ex: Ré, Sol, Lá m)">
-          <select id="ens-tipo">
-            <option value="Louvor">Louvor</option>
-            <option value="Adoração">Adoração</option>
-            <option value="Hino">Hino Clássico</option>
-            <option value="Especial">Especial</option>
-          </select>
-        </div>
-        <div class="input-row">
-          <textarea id="ens-letra" rows="4" placeholder="Cole aqui a letra da música (opcional)..."></textarea>
-        </div>
-        <div class="input-row">
-          <label class="audio-upload-label" id="ens-audio-label">
-            🎵 Selecionar arquivo de áudio (.mp3, .m4a, .wav)
-            <input type="file" id="ens-audio" accept="audio/*">
-          </label>
-        </div>
-        <button class="btn-gold" onclick="addMusica()">+ Adicionar ao Repertório</button>
+
       </div>
-
-      <div class="music-list" id="music-list"></div>
     </div>
   </div>
 
@@ -146,52 +137,46 @@
     <div class="section-container">
       <h2 class="section-title">Galeria do Ministério</h2>
       <p class="section-subtitle">Momentos especiais do nosso grupo</p>
+      <!--
+        DESENVOLVEDOR: adicione as fotos abaixo.
+        Estrutura de pastas: ./img/fotos/varoes/foto1.jpg  etc.
+        Copie o bloco <div class="photo-item"> para cada foto nova.
+      -->
 
       <div class="fotos-section">
         <div class="fotos-section-header">
           <h3>Festa dos Varões</h3>
-          <label class="btn-sm foto-upload-btn">
-            + Adicionar Fotos
-            <input type="file" accept="image/*" multiple onchange="addFotos(event,'varoes')">
-          </label>
         </div>
         <div class="photos-grid" id="grid-fotos-varoes">
+          <!-- EXEMPLO -->
           <div class="photo-item">
-            <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Sem fotos
-                ainda</span></div>
+            <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Em breve</span></div>
           </div>
+          <!-- <div class="photo-item"><img src="./img/fotos/varoes/foto1.jpg" alt="Festa dos Varões"></div> -->
         </div>
       </div>
 
       <div class="fotos-section">
         <div class="fotos-section-header">
           <h3>Festa das Irmãs</h3>
-          <label class="btn-sm foto-upload-btn">
-            + Adicionar Fotos
-            <input type="file" accept="image/*" multiple onchange="addFotos(event,'irmas')">
-          </label>
         </div>
         <div class="photos-grid" id="grid-fotos-irmas">
           <div class="photo-item">
-            <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Sem fotos
-                ainda</span></div>
+            <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Em breve</span></div>
           </div>
+          <!-- <div class="photo-item"><img src="./img/fotos/irmas/foto1.jpg" alt="Festa das Irmãs"></div> -->
         </div>
       </div>
 
       <div class="fotos-section">
         <div class="fotos-section-header">
           <h3>Festa dos Jovens</h3>
-          <label class="btn-sm foto-upload-btn">
-            + Adicionar Fotos
-            <input type="file" accept="image/*" multiple onchange="addFotos(event,'jovens')">
-          </label>
         </div>
         <div class="photos-grid" id="grid-fotos-jovens">
           <div class="photo-item">
-            <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Sem fotos
-                ainda</span></div>
+            <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Em breve</span></div>
           </div>
+          <!-- <div class="photo-item"><img src="./img/fotos/jovens/foto1.jpg" alt="Festa dos Jovens"></div> -->
         </div>
       </div>
 
@@ -208,16 +193,12 @@
     </div>
   </div>
 
-  <footer>
-    ✝ Ministério de Louvor — Para a Glória de Deus ✝
-  </footer>
+  <footer>✝ Ministério de Louvor — Para a Glória de Deus ✝</footer>
 
-  <!-- Firebase SDKs (compat) -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
-
-  <script type="module" src="./js/script.js"></script>
+  <script src="./js/script.js"></script>
 
 </body>
 
