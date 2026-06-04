@@ -62,33 +62,39 @@ async function carregarLetras() {
 async function addLetra() {
     const titulo = document.getElementById('let-titulo').value.trim();
     const letra = document.getElementById('let-letra').value.trim();
+    const grupo = document.getElementById('let-grupo').value;
+
     if (!titulo || !letra) {
-        showToast('Preencha o título e a letra.', 'aviso');
-        return;
+        showToast('Preencha o título e a letra.', 'aviso'); return;
+    }
+    if (!grupo) {
+        showToast('Selecione o grupo (Louvor, Varões, Irmãs ou Jovens).', 'aviso'); return;
     }
 
     const btn = document.querySelector('#page-letras .btn-gold');
-    btn.disabled = true;
-    btn.textContent = 'Salvando...';
+    btn.disabled = true; btn.textContent = 'Salvando...';
 
     try {
         const dados = {
             titulo,
             autor: document.getElementById('let-autor').value.trim(),
             letra,
+            grupo,
             criadoEm: firebase.firestore.FieldValue.serverTimestamp()
         };
         const docRef = await db.collection('letras').add(dados);
         letras.push({ id: docRef.id, ...dados });
         renderLetras();
         ['let-titulo', 'let-autor', 'let-letra'].forEach(id => document.getElementById(id).value = '');
+        // resetar dropdown
+        document.getElementById('let-grupo').value = '';
+        document.getElementById('grupoLabel').textContent = 'Selecionar grupo...';
         showToast('Hino salvo com sucesso!');
     } catch (err) {
         showToast('Erro ao salvar. Tente novamente.', 'erro');
         console.error(err);
     } finally {
-        btn.disabled = false;
-        btn.textContent = '+ Salvar Hino';
+        btn.disabled = false; btn.textContent = '+ Salvar Hino';
     }
 }
 
@@ -105,18 +111,24 @@ async function removeLetra(id) {
 }
 
 function renderLetras() {
-    const el = document.getElementById('letters-grid');
-    if (!letras.length) {
-        el.innerHTML = '<p class="empty-msg" style="grid-column:1/-1">Nenhum hino salvo ainda. Adicione o primeiro acima!</p>';
-        return;
-    }
-    el.innerHTML = letras.map(l => `
-    <div class="letter-card" onclick="openModal('${l.id}')">
-      <button class="del-btn" onclick="event.stopPropagation();removeLetra('${l.id}')">✕</button>
-      <h4>${escapeHtml(l.titulo)}${l.autor ? ' — ' + escapeHtml(l.autor) : ''}</h4>
-      <p class="preview">${escapeHtml(l.letra)}</p>
-    </div>
-  `).join('');
+    const grupos = ['louvor', 'varoes', 'irmas', 'jovens'];
+
+    grupos.forEach(grupo => {
+        const el = document.getElementById('grid-' + grupo);
+        const filtradas = letras.filter(l => (l.grupo || 'louvor') === grupo);
+
+        if (!filtradas.length) {
+            el.innerHTML = '<p class="empty-msg" style="grid-column:1/-1">Nenhum hino neste grupo ainda.</p>';
+            return;
+        }
+        el.innerHTML = filtradas.map(l => `
+            <div class="letter-card" onclick="openModal('${l.id}')">
+              <button class="del-btn" onclick="event.stopPropagation();removeLetra('${l.id}')">✕</button>
+              <h4>${escapeHtml(l.titulo)}${l.autor ? ' — ' + escapeHtml(l.autor) : ''}</h4>
+              <p class="preview">${escapeHtml(l.letra)}</p>
+            </div>
+        `).join('');
+    });
 }
 
 function openModal(id) {
@@ -218,4 +230,31 @@ function escapeHtml(str) {
         .replace(/"/g, '&quot;');
 }
 
-document.addEventListener('DOMContentLoaded', init);
+function toggleGrupoDropdown() {
+    const btn = document.getElementById('grupoBtn');
+    const dd = document.getElementById('grupoDropdown');
+    btn.classList.toggle('open');
+    dd.classList.toggle('open');
+}
+
+function selecionarGrupo(valor, label) {
+    document.getElementById('let-grupo').value = valor;
+    document.getElementById('grupoLabel').textContent = label;
+    document.getElementById('grupoBtn').classList.remove('open');
+    document.getElementById('grupoDropdown').classList.remove('open');
+}
+
+function toggleGrupoBox(id) {
+    document.getElementById(id).classList.toggle('aberto');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.grupo-select-wrap')) {
+            document.getElementById('grupoBtn')?.classList.remove('open');
+            document.getElementById('grupoDropdown')?.classList.remove('open');
+        }
+    });
+});

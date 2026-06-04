@@ -1120,3 +1120,216 @@ footer {
   font-size: 12px;
   color: var(--text-muted);
 }
+
+/* === DROPDOWN DE GRUPO === */
+.grupo-select-wrap {
+  position: relative;
+}
+
+.grupo-select-btn {
+  width: 100%;
+  background: var(--dark3);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 6px;
+  color: var(--cream);
+  padding: 10px 14px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: border-color 0.2s;
+  text-align: left;
+}
+
+.grupo-select-btn:hover,
+.grupo-select-btn.open {
+  border-color: var(--gold);
+}
+
+.grupo-arrow {
+  color: var(--gold);
+  font-size: 13px;
+  transition: transform 0.2s;
+}
+
+.grupo-select-btn.open .grupo-arrow {
+  transform: rotate(180deg);
+}
+
+.grupo-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--dark3);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: 6px;
+  z-index: 50;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.grupo-dropdown.open {
+  display: block;
+}
+
+.grupo-option {
+  padding: 10px 14px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 15px;
+  color: var(--cream);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.grupo-option:hover {
+  background: rgba(201, 168, 76, 0.1);
+  color: var(--gold);
+}
+
+/* === BOXES POR GRUPO === */
+/* === BOXES DE GRUPO (ACORDEÃO) === */
+.grupo-box {
+  margin-bottom: 1rem;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.grupo-box-header {
+  background: rgba(201, 168, 76, 0.08);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+  padding: 1rem 1.25rem;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.grupo-box-header:hover {
+  background: rgba(201, 168, 76, 0.14);
+}
+
+.grupo-box-header .grupo-arrow-acc {
+  font-size: 13px;
+  transition: transform 0.3s;
+  color: var(--gold);
+}
+
+.grupo-box.aberto .grupo-box-header .grupo-arrow-acc {
+  transform: rotate(180deg);
+}
+
+.grupo-box-body {
+  display: none;
+  padding: 1rem;
+}
+
+.grupo-box.aberto .grupo-box-body {
+  display: block;
+}
+
+.grupo-box .letters-grid {
+  padding: 1rem;
+  min-height: 80px;
+}
+
+/* === CARDS DE LETRA COM ALTURA FIXA === */
+.letter-card {
+  background: var(--dark2);
+  border: 1px solid rgba(201, 168, 76, 0.12);
+  border-radius: 8px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  height: 200px;
+  /* altura fixa */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.letter-card:hover {
+  border-color: rgba(201, 168, 76, 0.4);
+  background: var(--dark3);
+  transform: translateY(-2px);
+}
+
+.letter-card h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: var(--gold);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.letter-card .preview {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-style: italic;
+  overflow-y: auto;
+  flex: 1;
+  /* scroll suave */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 168, 76, 0.2) transparent;
+}
+
+.letter-card .preview::-webkit-scrollbar {
+  width: 4px;
+}
+
+.letter-card .preview::-webkit-scrollbar-thumb {
+  background: rgba(201, 168, 76, 0.2);
+  border-radius: 2px;
+}
+
+.letter-card .del-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 2;
+}
+
+.letter-card:hover .del-btn {
+  opacity: 1;
+}
+
+.letter-card .del-btn:hover {
+  color: #e05555;
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 600px) {
+  .letters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grupo-box-header {
+    font-size: 12px;
+    padding: 0.85rem 1rem;
+  }
+
+  .letter-card {
+    height: 180px;
+  }
+}

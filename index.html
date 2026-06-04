@@ -30,13 +30,6 @@
     <div class="hero-photo-ring" style="position:relative;z-index:1;">
       <img id="hero-img" src="./img/foto-equipe.png" alt="Foto do ministério"
         onerror="this.style.display='none';document.getElementById('hero-placeholder').style.display='flex';">
-      <!-- <div class="hero-photo-placeholder" id="hero-placeholder">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="8" r="4" />
-          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-        </svg>
-        <span>Foto do ministério</span>
-      </div> -->
     </div>
 
     <p class="church-name" style="position:relative;z-index:1;">Igreja Assembleia de Deus em Carmary</p>
@@ -50,9 +43,10 @@
     <button class="nav-btn active" onclick="showPage('ensaio',this)">🎵 Músicas para Ensaiar</button>
     <button class="nav-btn" onclick="showPage('letras',this)">📖 Letras dos Hinos</button>
     <button class="nav-btn" onclick="showPage('festas',this)">🎶 Repertório das Festas</button>
-    <!-- <button class="nav-btn" onclick="showPage('fotos',this)">📷 Galeria</button> (botão de galeria desativado por enquanto)-->
+    <!-- <button class="nav-btn" onclick="showPage('fotos',this)">📷 Galeria</button> -->
   </nav>
 
+  <!-- ===== PAGE ENSAIO ===== -->
   <div id="page-ensaio" class="page active">
     <div class="section-container">
       <h2 class="section-title">Músicas para Ensaiar (P/ Os Cultos)</h2>
@@ -88,27 +82,90 @@
             <span class="music-tag">Louvor</span>
           </div>
         </div>
-
       </div>
     </div>
   </div>
+  <!-- ===== /PAGE ENSAIO ===== -->
 
+  <!-- ===== PAGE LETRAS ===== -->
   <div id="page-letras" class="page">
     <div class="section-container">
       <h2 class="section-title">Letras dos Hinos</h2>
       <p class="section-subtitle">Clique em um hino para ver a letra completa durante o culto</p>
 
       <div class="letter-add-area">
+        <!-- DROPDOWN DE GRUPO -->
+        <div class="grupo-select-wrap">
+          <button class="grupo-select-btn" id="grupoBtn" onclick="toggleGrupoDropdown()">
+            <span id="grupoLabel">Selecionar grupo...</span>
+            <span class="grupo-arrow">▾</span>
+          </button>
+          <div class="grupo-dropdown" id="grupoDropdown">
+            <div class="grupo-option" onclick="selecionarGrupo('louvor', '🎵 Equipe de Louvor')">🎵 Equipe de Louvor
+            </div>
+            <div class="grupo-option" onclick="selecionarGrupo('varoes', '🎷 Varões')">🎷 Varões</div>
+            <div class="grupo-option" onclick="selecionarGrupo('irmas',  '🌸 Irmãs')">🌸 Irmãs</div>
+            <div class="grupo-option" onclick="selecionarGrupo('jovens', '⚡ Jovens')">⚡ Jovens</div>
+          </div>
+        </div>
+        <input type="hidden" id="let-grupo" value="">
+
         <input type="text" id="let-titulo" placeholder="Título do hino">
         <input type="text" id="let-autor" placeholder="Autor (opcional)">
         <textarea id="let-letra" rows="6" placeholder="Cole aqui a letra completa do hino..."></textarea>
+
         <button class="btn-gold" onclick="addLetra()">+ Salvar Hino</button>
       </div>
 
-      <div class="letters-grid" id="letters-grid"></div>
+      <!-- BOX EQUIPE DE LOUVOR -->
+      <div class="grupo-box" id="box-louvor">
+        <div class="grupo-box-header" onclick="toggleGrupoBox('box-louvor')">
+          <span>🎵 Equipe de Louvor</span>
+          <span class="grupo-arrow-acc">▾</span>
+        </div>
+        <div class="grupo-box-body">
+          <div class="letters-grid" id="grid-louvor"></div>
+        </div>
+      </div>
+
+      <!-- BOX VARÕES -->
+      <div class="grupo-box" id="box-varoes">
+        <div class="grupo-box-header" onclick="toggleGrupoBox('box-varoes')">
+          <span>🎷 Varões</span>
+          <span class="grupo-arrow-acc">▾</span>
+        </div>
+        <div class="grupo-box-body">
+          <div class="letters-grid" id="grid-varoes"></div>
+        </div>
+      </div>
+
+      <!-- BOX IRMÃS -->
+      <div class="grupo-box" id="box-irmas">
+        <div class="grupo-box-header" onclick="toggleGrupoBox('box-irmas')">
+          <span>🌸 Irmãs</span>
+          <span class="grupo-arrow-acc">▾</span>
+        </div>
+        <div class="grupo-box-body">
+          <div class="letters-grid" id="grid-irmas"></div>
+        </div>
+      </div>
+
+      <!-- BOX JOVENS -->
+      <div class="grupo-box" id="box-jovens">
+        <div class="grupo-box-header" onclick="toggleGrupoBox('box-jovens')">
+          <span>⚡ Jovens</span>
+          <span class="grupo-arrow-acc">▾</span>
+        </div>
+        <div class="grupo-box-body">
+          <div class="letters-grid" id="grid-jovens"></div>
+        </div>
+      </div>
+
     </div>
   </div>
+  <!-- ===== /PAGE LETRAS ===== -->
 
+  <!-- ===== PAGE FESTAS ===== -->
   <div id="page-festas" class="page">
     <div class="section-container">
       <h2 class="section-title">Repertório das Festas</h2>
@@ -120,13 +177,12 @@
         <button class="festa-tab" onclick="showFesta('jovens',this)">⚡ Festa dos Jovens</button>
       </div>
 
+      <!-- FESTA VARÕES -->
       <div id="festa-varoes" class="festa-content active">
 
-        <!-- Música 1 -->
         <div class="festa-section">
           <div class="festa-section-title">Música 1</div>
           <div class="festa-music-cards">
-
             <div class="festa-music-card">
               <div class="fmc-info">
                 <span class="fmc-num">01</span>
@@ -157,16 +213,12 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-        <!-- /Música 1 -->
 
-        <!-- Música 2 -->
         <div class="festa-section">
           <div class="festa-section-title">Música 2</div>
           <div class="festa-music-cards">
-
             <div class="festa-music-card">
               <div class="fmc-info">
                 <span class="fmc-num">02</span>
@@ -197,16 +249,12 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-        <!-- /Música 2 -->
 
-        <!-- Música 3 -->
         <div class="festa-section">
           <div class="festa-section-title">Música 3</div>
           <div class="festa-music-cards">
-
             <div class="festa-music-card">
               <div class="fmc-info">
                 <span class="fmc-num">03</span>
@@ -233,20 +281,16 @@
                       <div class="cp-progress-thumb" id="thumb-audio-v-ad-03"></div>
                     </div>
                   </div>
-                  <span class="cp-time" id="time-audio-v-ad-01">0:00</span>
+                  <span class="cp-time" id="time-audio-v-ad-03">0:00</span>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-        <!-- /Música 3 -->
 
-        <!-- Música 4 -->
         <div class="festa-section">
           <div class="festa-section-title">Música 4</div>
           <div class="festa-music-cards">
-
             <div class="festa-music-card">
               <div class="fmc-info">
                 <span class="fmc-num">04</span>
@@ -273,20 +317,16 @@
                       <div class="cp-progress-thumb" id="thumb-audio-v-ad-04"></div>
                     </div>
                   </div>
-                  <span class="cp-time" id="time-audio-v-ad-01">0:00</span>
+                  <span class="cp-time" id="time-audio-v-ad-04">0:00</span>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-        <!-- /Música 4 -->
 
-        <!-- Música 5 -->
         <div class="festa-section">
           <div class="festa-section-title">Música 5</div>
           <div class="festa-music-cards">
-
             <div class="festa-music-card">
               <div class="fmc-info">
                 <span class="fmc-num">05</span>
@@ -313,20 +353,16 @@
                       <div class="cp-progress-thumb" id="thumb-audio-v-ad-05"></div>
                     </div>
                   </div>
-                  <span class="cp-time" id="time-audio-v-ad-01">0:00</span>
+                  <span class="cp-time" id="time-audio-v-ad-05">0:00</span>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-        <!-- /Música 5 -->
 
-        <!-- Música 6 -->
         <div class="festa-section">
           <div class="festa-section-title">Música 6</div>
           <div class="festa-music-cards">
-
             <div class="festa-music-card">
               <div class="fmc-info">
                 <span class="fmc-num">06</span>
@@ -353,25 +389,21 @@
                       <div class="cp-progress-thumb" id="thumb-audio-v-ad-06"></div>
                     </div>
                   </div>
-                  <span class="cp-time" id="time-audio-v-ad-01">0:00</span>
+                  <span class="cp-time" id="time-audio-v-ad-06">0:00</span>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-        <!-- /Música 6 -->
 
       </div>
+      <!-- /FESTA VARÕES -->
 
+      <!-- FESTA IRMÃS -->
       <div id="festa-irmas" class="festa-content">
-
-        <!-- Música 1 -->
         <div class="festa-section">
           <div class="festa-section-title">Abertura</div>
           <div class="festa-music-cards">
-
-
             <div class="festa-music-card">
               <div class="fmc-info">
                 <span class="fmc-num">01</span>
@@ -401,22 +433,16 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
-        <!-- /Música 1 -->
-
       </div>
+      <!-- /FESTA IRMÃS -->
 
+      <!-- FESTA JOVENS -->
       <div id="festa-jovens" class="festa-content">
-
-        <!-- Música 1 -->
         <div class="festa-section">
           <div class="festa-section-title">Abertura</div>
           <div class="festa-music-cards">
-
-
             <div class="festa-music-card">
               <div class="fmc-info">
                 <span class="fmc-num">01</span>
@@ -446,18 +472,16 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
-        <!-- /Música 1 -->
-
       </div>
+      <!-- /FESTA JOVENS -->
 
     </div>
   </div>
+  <!-- ===== /PAGE FESTAS ===== -->
 
-  <!-- Seção para fotos mas ainda está em teste (desativei o botão lá em cima)-->
+  <!-- ===== PAGE FOTOS (desativado) ===== -->
   <div id="page-fotos" class="page">
     <div class="section-container">
       <h2 class="section-title">Galeria do Ministério</h2>
@@ -471,7 +495,6 @@
           <div class="photo-item">
             <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Em breve</span></div>
           </div>
-          <!-- <div class="photo-item"><img src="" alt="Festa dos Varões"></div> -->
         </div>
       </div>
 
@@ -483,7 +506,6 @@
           <div class="photo-item">
             <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Em breve</span></div>
           </div>
-          <!-- <div class="photo-item"><img src="" alt="Festa das Irmãs"></div> -->
         </div>
       </div>
 
@@ -495,11 +517,11 @@
           <div class="photo-item">
             <div class="photo-placeholder"><span style="font-size:28px;opacity:0.3">📷</span><span>Em breve</span></div>
           </div>
-          <!-- <div class="photo-item"><img src="" alt="Festa dos Jovens"></div> -->
         </div>
       </div>
     </div>
-  </div> <!-- final da seção para fotos -->
+  </div>
+  <!-- ===== /PAGE FOTOS ===== -->
 
   <div class="modal-overlay" id="modal" onclick="closeModal(event)">
     <div class="modal-box">
