@@ -105,7 +105,7 @@
             </div>
             <div class="grupo-option" onclick="selecionarGrupo('varoes', '🎷 Varões')">🎷 Varões</div>
             <div class="grupo-option" onclick="selecionarGrupo('irmas',  '🌸 Irmãs')">🌸 Irmãs</div>
-            <div class="grupo-option" onclick="selecionarGrupo('jovens', '⚡ Jovens')">⚡ Jovens</div>
+            <div class="grupo-option" onclick="selecionarGrupo('jovens', '⚡ Missões')">⚡ Missões</div>
           </div>
         </div>
         <input type="hidden" id="let-grupo" value="">
@@ -120,7 +120,7 @@
       <!-- box equipe -->
       <div class="grupo-box" id="box-louvor">
         <div class="grupo-box-header" onclick="toggleGrupoBox('box-louvor')">
-          <span>🎵 Equipe de Louvor</span>
+          <span>Equipe de Louvor</span>
           <span class="grupo-arrow-acc">▾</span>
         </div>
         <div class="grupo-box-body">
@@ -131,7 +131,7 @@
       <!-- box varões -->
       <div class="grupo-box" id="box-varoes">
         <div class="grupo-box-header" onclick="toggleGrupoBox('box-varoes')">
-          <span>🎷 Varões</span>
+          <span>Varões</span>
           <span class="grupo-arrow-acc">▾</span>
         </div>
         <div class="grupo-box-body">
@@ -142,7 +142,7 @@
       <!-- box irmãs -->
       <div class="grupo-box" id="box-irmas">
         <div class="grupo-box-header" onclick="toggleGrupoBox('box-irmas')">
-          <span>🌸 Irmãs</span>
+          <span>Irmãs</span>
           <span class="grupo-arrow-acc">▾</span>
         </div>
         <div class="grupo-box-body">
@@ -153,7 +153,7 @@
       <!-- box jovens -->
       <div class="grupo-box" id="box-jovens">
         <div class="grupo-box-header" onclick="toggleGrupoBox('box-jovens')">
-          <span>⚡ Jovens</span>
+          <span>Missões</span>
           <span class="grupo-arrow-acc">▾</span>
         </div>
         <div class="grupo-box-body">
@@ -174,7 +174,7 @@
       <div class="festas-tabs">
         <button class="festa-tab active" onclick="showFesta('varoes',this)">🎷 Festa dos Varões</button>
         <button class="festa-tab" onclick="showFesta('irmas',this)">🌸 Festa das Irmãs</button>
-        <button class="festa-tab" onclick="showFesta('jovens',this)">⚡ Festa dos Jovens</button>
+        <button class="festa-tab" onclick="showFesta('jovens',this)">⚡ Festa de Missões</button>
       </div>
 
       <!-- varões -->
@@ -438,7 +438,7 @@
       </div>
       <!-- /irmãs -->
 
-      <!-- jovens -->
+      <!-- missões -->
       <div id="festa-jovens" class="festa-content">
         <div class="festa-section">
           <div class="festa-section-title">Abertura</div>
@@ -475,7 +475,7 @@
           </div>
         </div>
       </div>
-      <!-- /jovens -->
+      <!-- /missões -->
 
     </div>
   </div>
@@ -499,7 +499,7 @@
               Louvor</div>
             <div class="grupo-option" onclick="selecionarGrupoCifra('varoes', '🎷 Varões')">🎷 Varões</div>
             <div class="grupo-option" onclick="selecionarGrupoCifra('irmas', '🌸 Irmãs')">🌸 Irmãs</div>
-            <div class="grupo-option" onclick="selecionarGrupoCifra('jovens', '⚡ Jovens')">⚡ Jovens</div>
+            <div class="grupo-option" onclick="selecionarGrupoCifra('jovens', '⚡ Missões')">⚡ Missões</div>
           </div>
         </div>
         <input type="hidden" id="cif-grupo" value="">
@@ -515,18 +515,22 @@
         </div>
         <textarea id="cif-cifra" rows="10" placeholder="Cole aqui a cifra completa...
 Exemplo:
-Am        F       C        G
-Cantai ao Senhor um cântico novo
-Am        F       C
-Cantai ao Senhor todas as terras"></textarea>
+           A2 
+Eu me deparei 
+                        B2
+Com aquele mestre escrevendo
+                G#m7(11)
+Com o dedo no chão
+                            C#m7
+Ouvindo os fariseus a lhes falar"></textarea>
 
-        <button class="btn-gold" onclick="addCifra()">🎸 Salvar Cifra</button>
+        <button class="btn-gold" onclick="addCifra()">+ Salvar Cifra</button>
       </div>
 
       <!-- box da equipe -->
       <div class="grupo-box" id="cbox-louvor">
         <div class="grupo-box-header" onclick="toggleGrupoBox('cbox-louvor')">
-          <span>🎵 Equipe de Louvor</span>
+          <span>Equipe de Louvor</span>
           <span class="grupo-arrow-acc">▾</span>
         </div>
         <div class="grupo-box-body">
@@ -537,7 +541,7 @@ Cantai ao Senhor todas as terras"></textarea>
       <!-- box dos varões -->
       <div class="grupo-box" id="cbox-varoes">
         <div class="grupo-box-header" onclick="toggleGrupoBox('cbox-varoes')">
-          <span>🎷 Varões</span>
+          <span>Varões</span>
           <span class="grupo-arrow-acc">▾</span>
         </div>
         <div class="grupo-box-body">
@@ -548,7 +552,7 @@ Cantai ao Senhor todas as terras"></textarea>
       <!-- box das irmãs -->
       <div class="grupo-box" id="cbox-irmas">
         <div class="grupo-box-header" onclick="toggleGrupoBox('cbox-irmas')">
-          <span>🌸 Irmãs</span>
+          <span>Irmãs</span>
           <span class="grupo-arrow-acc">▾</span>
         </div>
         <div class="grupo-box-body">
@@ -556,10 +560,10 @@ Cantai ao Senhor todas as terras"></textarea>
         </div>
       </div>
 
-      <!-- box dos jovens -->
+      <!-- box de missão -->
       <div class="grupo-box" id="cbox-jovens">
         <div class="grupo-box-header" onclick="toggleGrupoBox('cbox-jovens')">
-          <span>⚡ Jovens</span>
+          <span>Missões</span>
           <span class="grupo-arrow-acc">▾</span>
         </div>
         <div class="grupo-box-body">

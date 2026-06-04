@@ -1600,15 +1600,47 @@ footer {
   display: block;
   color: var(--gold-light);
   font-weight: 600;
-  white-space: pre-wrap;
-  word-break: break-word;
+  white-space: pre;
 }
 
 .cifra-linha-letra {
   display: block;
   color: var(--cream);
-  white-space: pre-wrap;
+  white-space: pre;
+}
+
+.cifra-bloco-inline {
+  display: block;
+  white-space: normal;
   word-break: break-word;
+  line-height: 1;
+  margin-bottom: 0.2em;
+}
+
+.cifra-token {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  vertical-align: bottom;
+  margin-right: 0;
+}
+
+.cifra-token-acorde {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.82em;
+  font-weight: 700;
+  color: var(--gold-light);
+  line-height: 1.4;
+  white-space: nowrap;
+  min-width: 100%;
+}
+
+.cifra-token-letra {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 1em;
+  color: var(--cream);
+  line-height: 1.5;
+  white-space: pre-wrap;
 }
 
 @media (max-width: 600px) {
@@ -1634,5 +1666,20 @@ footer {
 
   .cifra-content {
     font-size: 12px !important;
+  }
+
+  .modal-cifra-box {
+    padding: 1.25rem 1rem;
+  }
+
+  .cifra-content {
+    font-size: 12px !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-box {
+    padding: 1.25rem 1rem;
+    max-height: 92vh;
   }
 }

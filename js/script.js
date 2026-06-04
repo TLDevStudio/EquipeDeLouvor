@@ -368,6 +368,30 @@ function closeModalCifra(e) {
     }
 }
 
+function parseCifraEmTokens(linhaAcorde, linhaLetra) {
+    const tokens = [];
+    const regexAcorde = /\S+/g;
+    let match;
+    const acordesPosicao = [];
+    while ((match = regexAcorde.exec(linhaAcorde)) !== null) {
+        acordesPosicao.push({ acorde: match[0], pos: match.index });
+    }
+    if (!acordesPosicao.length) {
+        return [{ acorde: '', texto: linhaLetra }];
+    }
+    for (let i = 0; i < acordesPosicao.length; i++) {
+        const inicio = acordesPosicao[i].pos;
+        const fim = i + 1 < acordesPosicao.length ? acordesPosicao[i + 1].pos : linhaLetra.length;
+        const texto = linhaLetra.slice(inicio, fim) || '';
+        tokens.push({ acorde: acordesPosicao[i].acorde, texto });
+    }
+    if (acordesPosicao[0].pos > 0) {
+        const prefixo = linhaLetra.slice(0, acordesPosicao[0].pos);
+        if (prefixo.trim()) tokens.unshift({ acorde: '', texto: prefixo });
+    }
+    return tokens;
+}
+
 function renderCifraModal(cifraTexto, semitons) {
     const corpo = document.getElementById('modal-cifra-body');
     const linhas = cifraTexto.split('\n');
@@ -378,29 +402,28 @@ function renderCifraModal(cifraTexto, semitons) {
         const linha = linhas[i];
 
         if (isLinhaAcorde(linha)) {
-            
-            const acordeTransposto = transporLinha(linha, semitons);
-
-            
+            const linhaTransposta = transporLinha(linha, semitons);
             const proxima = linhas[i + 1];
-            if (proxima !== undefined && proxima.trim() !== '' && !isLinhaAcorde(proxima)) {
-                // Agrupa acorde + letra num bloco único
-                html += `<span class="cifra-bloco">` +
-                    `<span class="cifra-linha-acorde">${escapeHtml(acordeTransposto)}</span>` +
-                    `<span class="cifra-linha-letra">${escapeHtml(proxima)}</span>` +
-                    `</span>`;
-                i += 2; 
+
+            if (proxima !== undefined && !isLinhaAcorde(proxima)) {
+                const tokens = parseCifraEmTokens(linhaTransposta, proxima);
+                html += `<span class="cifra-bloco-inline">`;
+                tokens.forEach(t => {
+                    html += `<span class="cifra-token">` +
+                        `<span class="cifra-token-acorde">${t.acorde ? escapeHtml(t.acorde) : '&nbsp;'}</span>` +
+                        `<span class="cifra-token-letra">${t.texto ? escapeHtml(t.texto) : ''}</span>` +
+                        `</span>`;
+                });
+                html += `</span>\n`;
+                i += 2;
             } else {
-                
-                html += `<span class="cifra-linha-acorde">${escapeHtml(acordeTransposto)}\n</span>`;
+                html += `<span class="cifra-linha-acorde">${escapeHtml(linhaTransposta)}\n</span>`;
                 i++;
             }
         } else if (linha.trim() === '') {
-           
             html += `<span class="cifra-linha-letra"> \n</span>`;
             i++;
         } else {
-            
             html += `<span class="cifra-linha-letra">${escapeHtml(linha)}\n</span>`;
             i++;
         }
