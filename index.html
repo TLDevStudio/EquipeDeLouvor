@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ministério de Louvor</title>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&family=Source+Code+Pro:wght@400;600&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -43,10 +43,10 @@
     <button class="nav-btn active" onclick="showPage('ensaio',this)">🎵 Músicas para Ensaiar</button>
     <button class="nav-btn" onclick="showPage('letras',this)">📖 Letras dos Hinos</button>
     <button class="nav-btn" onclick="showPage('festas',this)">🎶 Repertório das Festas</button>
-    <!-- <button class="nav-btn" onclick="showPage('fotos',this)">📷 Galeria</button> -->
+    <button class="nav-btn" onclick="showPage('cifras',this)">🎸 Cifras</button>
   </nav>
 
-  <!-- ===== PAGE ENSAIO ===== -->
+  <!-- equipe -->
   <div id="page-ensaio" class="page active">
     <div class="section-container">
       <h2 class="section-title">Músicas para Ensaiar (P/ Os Cultos)</h2>
@@ -85,16 +85,16 @@
       </div>
     </div>
   </div>
-  <!-- ===== /PAGE ENSAIO ===== -->
+  <!-- /equipe -->
 
-  <!-- ===== PAGE LETRAS ===== -->
+  <!-- letras -->
   <div id="page-letras" class="page">
     <div class="section-container">
       <h2 class="section-title">Letras dos Hinos</h2>
       <p class="section-subtitle">Clique em um hino para ver a letra completa durante o culto</p>
 
       <div class="letter-add-area">
-        <!-- DROPDOWN DE GRUPO -->
+
         <div class="grupo-select-wrap">
           <button class="grupo-select-btn" id="grupoBtn" onclick="toggleGrupoDropdown()">
             <span id="grupoLabel">Selecionar grupo...</span>
@@ -117,7 +117,7 @@
         <button class="btn-gold" onclick="addLetra()">+ Salvar Hino</button>
       </div>
 
-      <!-- BOX EQUIPE DE LOUVOR -->
+      <!-- box equipe -->
       <div class="grupo-box" id="box-louvor">
         <div class="grupo-box-header" onclick="toggleGrupoBox('box-louvor')">
           <span>🎵 Equipe de Louvor</span>
@@ -128,7 +128,7 @@
         </div>
       </div>
 
-      <!-- BOX VARÕES -->
+      <!-- box varões -->
       <div class="grupo-box" id="box-varoes">
         <div class="grupo-box-header" onclick="toggleGrupoBox('box-varoes')">
           <span>🎷 Varões</span>
@@ -139,7 +139,7 @@
         </div>
       </div>
 
-      <!-- BOX IRMÃS -->
+      <!-- box irmãs -->
       <div class="grupo-box" id="box-irmas">
         <div class="grupo-box-header" onclick="toggleGrupoBox('box-irmas')">
           <span>🌸 Irmãs</span>
@@ -150,7 +150,7 @@
         </div>
       </div>
 
-      <!-- BOX JOVENS -->
+      <!-- box jovens -->
       <div class="grupo-box" id="box-jovens">
         <div class="grupo-box-header" onclick="toggleGrupoBox('box-jovens')">
           <span>⚡ Jovens</span>
@@ -163,9 +163,9 @@
 
     </div>
   </div>
-  <!-- ===== /PAGE LETRAS ===== -->
+  <!-- /letras -->
 
-  <!-- ===== PAGE FESTAS ===== -->
+  <!-- músicas para as festividades -->
   <div id="page-festas" class="page">
     <div class="section-container">
       <h2 class="section-title">Repertório das Festas</h2>
@@ -177,7 +177,7 @@
         <button class="festa-tab" onclick="showFesta('jovens',this)">⚡ Festa dos Jovens</button>
       </div>
 
-      <!-- FESTA VARÕES -->
+      <!-- varões -->
       <div id="festa-varoes" class="festa-content active">
 
         <div class="festa-section">
@@ -397,9 +397,9 @@
         </div>
 
       </div>
-      <!-- /FESTA VARÕES -->
+      <!-- /varões -->
 
-      <!-- FESTA IRMÃS -->
+      <!-- irmãs -->
       <div id="festa-irmas" class="festa-content">
         <div class="festa-section">
           <div class="festa-section-title">Abertura</div>
@@ -436,9 +436,9 @@
           </div>
         </div>
       </div>
-      <!-- /FESTA IRMÃS -->
+      <!-- /irmãs -->
 
-      <!-- FESTA JOVENS -->
+      <!-- jovens -->
       <div id="festa-jovens" class="festa-content">
         <div class="festa-section">
           <div class="festa-section-title">Abertura</div>
@@ -475,13 +475,103 @@
           </div>
         </div>
       </div>
-      <!-- /FESTA JOVENS -->
+      <!-- /jovens -->
 
     </div>
   </div>
-  <!-- ===== /PAGE FESTAS ===== -->
+  <!-- /músicas para as festividades -->
 
-  <!-- ===== PAGE FOTOS (desativado) ===== -->
+  <!-- cifras -->
+  <div id="page-cifras" class="page">
+    <div class="section-container">
+      <h2 class="section-title">Cifras dos Hinos</h2>
+      <p class="section-subtitle">Clique em uma cifra para ver os acordes completos durante o culto</p>
+
+      <div class="letter-add-area cifra-add-area">
+
+        <div class="grupo-select-wrap">
+          <button class="grupo-select-btn" id="grupoBtn-cifra" onclick="toggleGrupoDropdownCifra()">
+            <span id="grupoLabel-cifra">Selecionar grupo...</span>
+            <span class="grupo-arrow">▾</span>
+          </button>
+          <div class="grupo-dropdown" id="grupoDropdown-cifra">
+            <div class="grupo-option" onclick="selecionarGrupoCifra('louvor', '🎵 Equipe de Louvor')">🎵 Equipe de
+              Louvor</div>
+            <div class="grupo-option" onclick="selecionarGrupoCifra('varoes', '🎷 Varões')">🎷 Varões</div>
+            <div class="grupo-option" onclick="selecionarGrupoCifra('irmas', '🌸 Irmãs')">🌸 Irmãs</div>
+            <div class="grupo-option" onclick="selecionarGrupoCifra('jovens', '⚡ Jovens')">⚡ Jovens</div>
+          </div>
+        </div>
+        <input type="hidden" id="cif-grupo" value="">
+
+        <input type="text" id="cif-titulo" placeholder="Título do hino">
+        <div class="cifra-meta-row">
+          <input type="text" id="cif-autor" placeholder="Autor (opcional)">
+          <input type="text" id="cif-tom" placeholder="Tom (ex: Ré, Sol, Lá m)">
+        </div>
+        <div class="cifra-hint">
+          <span class="cifra-hint-icon">🎸</span>
+          <span>Cole a cifra com os acordes acima de cada linha. Ex: <code>Am      F      C</code></span>
+        </div>
+        <textarea id="cif-cifra" rows="10" placeholder="Cole aqui a cifra completa...
+Exemplo:
+Am        F       C        G
+Cantai ao Senhor um cântico novo
+Am        F       C
+Cantai ao Senhor todas as terras"></textarea>
+
+        <button class="btn-gold" onclick="addCifra()">🎸 Salvar Cifra</button>
+      </div>
+
+      <!-- box da equipe -->
+      <div class="grupo-box" id="cbox-louvor">
+        <div class="grupo-box-header" onclick="toggleGrupoBox('cbox-louvor')">
+          <span>🎵 Equipe de Louvor</span>
+          <span class="grupo-arrow-acc">▾</span>
+        </div>
+        <div class="grupo-box-body">
+          <div class="cifras-grid" id="cgrid-louvor"></div>
+        </div>
+      </div>
+
+      <!-- box dos varões -->
+      <div class="grupo-box" id="cbox-varoes">
+        <div class="grupo-box-header" onclick="toggleGrupoBox('cbox-varoes')">
+          <span>🎷 Varões</span>
+          <span class="grupo-arrow-acc">▾</span>
+        </div>
+        <div class="grupo-box-body">
+          <div class="cifras-grid" id="cgrid-varoes"></div>
+        </div>
+      </div>
+
+      <!-- box das irmãs -->
+      <div class="grupo-box" id="cbox-irmas">
+        <div class="grupo-box-header" onclick="toggleGrupoBox('cbox-irmas')">
+          <span>🌸 Irmãs</span>
+          <span class="grupo-arrow-acc">▾</span>
+        </div>
+        <div class="grupo-box-body">
+          <div class="cifras-grid" id="cgrid-irmas"></div>
+        </div>
+      </div>
+
+      <!-- box dos jovens -->
+      <div class="grupo-box" id="cbox-jovens">
+        <div class="grupo-box-header" onclick="toggleGrupoBox('cbox-jovens')">
+          <span>⚡ Jovens</span>
+          <span class="grupo-arrow-acc">▾</span>
+        </div>
+        <div class="grupo-box-body">
+          <div class="cifras-grid" id="cgrid-jovens"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- /cifras -->
+
+  <!-- fotos da equipe (desativado para teste ainda) -->
   <div id="page-fotos" class="page">
     <div class="section-container">
       <h2 class="section-title">Galeria do Ministério</h2>
@@ -521,7 +611,7 @@
       </div>
     </div>
   </div>
-  <!-- ===== /PAGE FOTOS ===== -->
+  <!-- /fotos da equipe -->
 
   <div class="modal-overlay" id="modal" onclick="closeModal(event)">
     <div class="modal-box">
@@ -529,6 +619,27 @@
       <h2 class="modal-title" id="modal-title"></h2>
       <div class="divider-gold" style="margin:0 0 1.5rem;"></div>
       <pre class="modal-content" id="modal-body"></pre>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-cifra" onclick="closeModalCifra(event)">
+    <div class="modal-box modal-cifra-box">
+      <div class="modal-cifra-header">
+        <div>
+          <button class="modal-close" onclick="closeModalCifra()">✕</button>
+          <h2 class="modal-title" id="modal-cifra-title"></h2>
+          <div class="modal-cifra-meta" id="modal-cifra-meta"></div>
+        </div>
+        <div class="cifra-tom-controls">
+          <span class="cifra-tom-label">Transposição:</span>
+          <button class="cifra-tom-btn" onclick="transporCifra(-1)">▼ Meio Tom</button>
+          <span class="cifra-tom-atual" id="cifra-tom-atual"></span>
+          <button class="cifra-tom-btn" onclick="transporCifra(1)">▲ Meio Tom</button>
+          <button class="cifra-tom-btn cifra-tom-reset" onclick="resetTransposicao()">Resetar</button>
+        </div>
+      </div>
+      <div class="divider-gold" style="margin:0 0 1.5rem;"></div>
+      <pre class="modal-content cifra-content" id="modal-cifra-body"></pre>
     </div>
   </div>
 

@@ -31,7 +31,7 @@ function showToast(msg, tipo) {
 async function init() {
     showLoading('Carregando ministério...');
     try {
-        await Promise.all([carregarLetras(), carregarFestas()]);
+        await Promise.all([carregarLetras(), carregarFestas(), carregarCifras()]);
     } catch (e) {
         showToast('Erro ao conectar. Verifique a internet.', 'erro');
         console.error(e);
@@ -248,6 +248,223 @@ function toggleGrupoBox(id) {
     document.getElementById(id).classList.toggle('aberto');
 }
 
+let cifras = [];
+let cifraAtualId = null;
+let transposicaoAtual = 0;
+
+async function carregarCifras() {
+    const snap = await db.collection('cifras').orderBy('criadoEm', 'asc').get();
+    cifras = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderCifras();
+}
+
+async function addCifra() {
+    const titulo = document.getElementById('cif-titulo').value.trim();
+    const cifra = document.getElementById('cif-cifra').value.trim();
+    const grupo = document.getElementById('cif-grupo').value;
+
+    if (!titulo || !cifra) {
+        showToast('Preencha o título e a cifra.', 'aviso'); return;
+    }
+    if (!grupo) {
+        showToast('Selecione o grupo.', 'aviso'); return;
+    }
+
+    const btn = document.querySelector('#page-cifras .btn-gold');
+    btn.disabled = true; btn.textContent = 'Salvando...';
+
+    try {
+        const dados = {
+            titulo,
+            autor: document.getElementById('cif-autor').value.trim(),
+            tom: document.getElementById('cif-tom').value.trim(),
+            cifra,
+            grupo,
+            criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        const docRef = await db.collection('cifras').add(dados);
+        cifras.push({ id: docRef.id, ...dados });
+        renderCifras();
+
+        ['cif-titulo', 'cif-autor', 'cif-tom', 'cif-cifra'].forEach(id =>
+            document.getElementById(id).value = ''
+        );
+        document.getElementById('cif-grupo').value = '';
+        document.getElementById('grupoLabel-cifra').textContent = 'Selecionar grupo...';
+        document.getElementById('grupoBtn-cifra').classList.remove('open');
+        document.getElementById('grupoDropdown-cifra').classList.remove('open');
+
+        showToast('Cifra salva com sucesso!');
+    } catch (err) {
+        showToast('Erro ao salvar. Tente novamente.', 'erro');
+        console.error(err);
+    } finally {
+        btn.disabled = false; btn.textContent = '🎸 Salvar Cifra';
+    }
+}
+
+async function removeCifra(id) {
+    if (!confirm('Remover esta cifra?')) return;
+    try {
+        await db.collection('cifras').doc(id).delete();
+        cifras = cifras.filter(c => c.id !== id);
+        renderCifras();
+        showToast('Cifra removida.');
+    } catch (err) {
+        showToast('Erro ao remover.', 'erro');
+    }
+}
+
+function renderCifras() {
+    const grupos = ['louvor', 'varoes', 'irmas', 'jovens'];
+
+    grupos.forEach(grupo => {
+        const el = document.getElementById('cgrid-' + grupo);
+        const filtradas = cifras.filter(c => (c.grupo || 'louvor') === grupo);
+
+        if (!filtradas.length) {
+            el.innerHTML = '<p class="empty-msg" style="grid-column:1/-1">Nenhuma cifra neste grupo ainda.</p>';
+            return;
+        }
+
+        el.innerHTML = filtradas.map(c => `
+            <div class="cifra-card" onclick="openModalCifra('${c.id}')">
+                <button class="del-btn" onclick="event.stopPropagation();removeCifra('${c.id}')">✕</button>
+                <div class="cifra-card-header">
+                    <h4>${escapeHtml(c.titulo)}</h4>
+                    ${c.tom ? `<span class="cifra-tom-badge">${escapeHtml(c.tom)}</span>` : ''}
+                </div>
+                ${c.autor ? `<p class="autor-small">${escapeHtml(c.autor)}</p>` : ''}
+                <pre class="cifra-preview">${escapeHtml(c.cifra)}</pre>
+            </div>
+        `).join('');
+    });
+}
+
+function openModalCifra(id) {
+    const c = cifras.find(x => x.id === id);
+    if (!c) return;
+
+    cifraAtualId = id;
+    transposicaoAtual = 0;
+
+    document.getElementById('modal-cifra-title').textContent =
+        c.titulo + (c.autor ? ' — ' + c.autor : '');
+    document.getElementById('modal-cifra-meta').textContent =
+        c.tom ? 'Tom original: ' + c.tom : '';
+    document.getElementById('cifra-tom-atual').textContent =
+        c.tom || '—';
+
+    renderCifraModal(c.cifra, 0);
+    document.getElementById('modal-cifra').classList.add('open');
+}
+
+function closeModalCifra(e) {
+    if (!e || e.target === document.getElementById('modal-cifra') ||
+        e.target.classList.contains('modal-close')) {
+        document.getElementById('modal-cifra').classList.remove('open');
+        cifraAtualId = null;
+        transposicaoAtual = 0;
+    }
+}
+
+function renderCifraModal(cifraTexto, semitons) {
+    const corpo = document.getElementById('modal-cifra-body');
+    const linhas = cifraTexto.split('\n');
+
+    corpo.innerHTML = linhas.map(linha => {
+        if (isLinhaAcorde(linha)) {
+            const transposta = transporLinha(linha, semitons);
+            return `<span class="cifra-linha-acorde">${escapeHtml(transposta)}</span>`;
+        }
+        return `<span class="cifra-linha-letra">${escapeHtml(linha)}</span>`;
+    }).join('\n');
+}
+
+const NOTAS_S = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const NOTAS_B = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+
+const MAPA_BR = {
+    'Dó': 'C', 'Ré': 'D', 'Mi': 'E', 'Fá': 'F', 'Sol': 'G', 'Lá': 'A', 'Si': 'B',
+    'do': 'C', 'ré': 'D', 'mi': 'E', 'fá': 'F', 'sol': 'G', 'lá': 'A', 'si': 'B',
+    'DO': 'C', 'RE': 'D', 'MI': 'E', 'FA': 'F', 'SOL': 'G', 'LA': 'A', 'SI': 'B'
+};
+
+function indexNota(nota) {
+    const n = nota.replace(/([A-G])b/, '$1b');
+    let idx = NOTAS_S.indexOf(nota);
+    if (idx === -1) idx = NOTAS_B.indexOf(nota);
+    return idx;
+}
+
+function transporNota(nota, semitons) {
+    let idx = indexNota(nota);
+    if (idx === -1) return nota;
+    const novo = ((idx + semitons) % 12 + 12) % 12;
+    return (nota.includes('b') && !nota.includes('#'))
+        ? NOTAS_B[novo]
+        : NOTAS_S[novo];
+}
+
+const REGEX_ACORDE = /\b([A-G][b#]?)(m|maj|dim|aug|sus|add)?(\d*)([/]([A-G][b#]?))?\b/g;
+
+function transporLinha(linha, semitons) {
+    if (semitons === 0) return linha;
+    return linha.replace(REGEX_ACORDE, (match, raiz, qualidade, ext, _, baixo) => {
+        const novaRaiz = transporNota(raiz, semitons);
+        const novoBaixo = baixo ? '/' + transporNota(baixo, semitons) : '';
+        return novaRaiz + (qualidade || '') + (ext || '') + novoBaixo;
+    });
+}
+
+function isLinhaAcorde(linha) {
+    const tokens = linha.trim().split(/\s+/).filter(Boolean);
+    if (!tokens.length) return false;
+    const acordes = tokens.filter(t => /^[A-G][b#]?(m|maj|dim|aug|sus|add)?(\d*)([/][A-G][b#]?)?$/.test(t));
+    return acordes.length / tokens.length >= 0.5;
+}
+
+function transporCifra(direcao) {
+    const c = cifras.find(x => x.id === cifraAtualId);
+    if (!c) return;
+
+    transposicaoAtual += direcao;
+
+    const tomOriginalIdx = c.tom ? indexNota(c.tom.replace(/m$/, '').trim()) : -1;
+    if (tomOriginalIdx !== -1) {
+        const novoIdx = ((tomOriginalIdx + transposicaoAtual) % 12 + 12) % 12;
+        const novoTom = NOTAS_S[novoIdx] + (c.tom && c.tom.trim().endsWith('m') ? 'm' : '');
+        document.getElementById('cifra-tom-atual').textContent = novoTom;
+    } else {
+        document.getElementById('cifra-tom-atual').textContent =
+            (transposicaoAtual >= 0 ? '+' : '') + transposicaoAtual;
+    }
+
+    renderCifraModal(c.cifra, transposicaoAtual);
+}
+
+function resetTransposicao() {
+    const c = cifras.find(x => x.id === cifraAtualId);
+    if (!c) return;
+    transposicaoAtual = 0;
+    document.getElementById('cifra-tom-atual').textContent = c.tom || '—';
+    renderCifraModal(c.cifra, 0);
+}
+
+function toggleGrupoDropdownCifra() {
+    const btn = document.getElementById('grupoBtn-cifra');
+    const dd = document.getElementById('grupoDropdown-cifra');
+    btn.classList.toggle('open');
+    dd.classList.toggle('open');
+}
+
+function selecionarGrupoCifra(valor, label) {
+    document.getElementById('cif-grupo').value = valor;
+    document.getElementById('grupoLabel-cifra').textContent = label;
+    document.getElementById('grupoBtn-cifra').classList.remove('open');
+    document.getElementById('grupoDropdown-cifra').classList.remove('open');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     init();
 
@@ -255,6 +472,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!e.target.closest('.grupo-select-wrap')) {
             document.getElementById('grupoBtn')?.classList.remove('open');
             document.getElementById('grupoDropdown')?.classList.remove('open');
+
+            document.getElementById('grupoBtn-cifra')?.classList.remove('open');
+            document.getElementById('grupoDropdown-cifra')?.classList.remove('open');
         }
     });
 });
