@@ -1460,8 +1460,10 @@ footer {
   color: var(--text-muted);
   line-height: 1.8;
   overflow-y: auto;
+  overflow-x: hidden;
   flex: 1;
-  white-space: pre;
+  white-space: pre-wrap;
+  word-break: break-word;
   scrollbar-width: thin;
   scrollbar-color: rgba(201, 168, 76, 0.2) transparent;
 }
@@ -1584,17 +1586,29 @@ footer {
   font-size: 14px !important;
   line-height: 1.9 !important;
   letter-spacing: 0.02em;
-  white-space: pre;
-  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-x: hidden;
+  word-break: break-word;
+}
+
+.cifra-bloco {
+  display: block;
+  margin-bottom: 0.15em;
 }
 
 .cifra-linha-acorde {
+  display: block;
   color: var(--gold-light);
   font-weight: 600;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .cifra-linha-letra {
+  display: block;
   color: var(--cream);
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 @media (max-width: 600px) {

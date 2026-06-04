@@ -371,14 +371,42 @@ function closeModalCifra(e) {
 function renderCifraModal(cifraTexto, semitons) {
     const corpo = document.getElementById('modal-cifra-body');
     const linhas = cifraTexto.split('\n');
+    let html = '';
+    let i = 0;
 
-    corpo.innerHTML = linhas.map(linha => {
+    while (i < linhas.length) {
+        const linha = linhas[i];
+
         if (isLinhaAcorde(linha)) {
-            const transposta = transporLinha(linha, semitons);
-            return `<span class="cifra-linha-acorde">${escapeHtml(transposta)}</span>`;
+            
+            const acordeTransposto = transporLinha(linha, semitons);
+
+            
+            const proxima = linhas[i + 1];
+            if (proxima !== undefined && proxima.trim() !== '' && !isLinhaAcorde(proxima)) {
+                // Agrupa acorde + letra num bloco único
+                html += `<span class="cifra-bloco">` +
+                    `<span class="cifra-linha-acorde">${escapeHtml(acordeTransposto)}</span>` +
+                    `<span class="cifra-linha-letra">${escapeHtml(proxima)}</span>` +
+                    `</span>`;
+                i += 2; 
+            } else {
+                
+                html += `<span class="cifra-linha-acorde">${escapeHtml(acordeTransposto)}\n</span>`;
+                i++;
+            }
+        } else if (linha.trim() === '') {
+           
+            html += `<span class="cifra-linha-letra"> \n</span>`;
+            i++;
+        } else {
+            
+            html += `<span class="cifra-linha-letra">${escapeHtml(linha)}\n</span>`;
+            i++;
         }
-        return `<span class="cifra-linha-letra">${escapeHtml(linha)}</span>`;
-    }).join('\n');
+    }
+
+    corpo.innerHTML = html;
 }
 
 const NOTAS_S = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
