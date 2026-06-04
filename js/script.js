@@ -31,9 +31,12 @@ function showToast(msg, tipo) {
 async function init() {
     showLoading('Carregando ministério...');
     try {
-        await Promise.all([carregarLetras(), carregarFestas(), carregarCifras()]);
+        await Promise.all([
+            carregarLetras().catch(e => console.warn('Letras:', e)),
+            carregarFestas().catch(e => console.warn('Festas:', e)),
+            carregarCifras().catch(e => console.warn('Cifras:', e))
+        ]);
     } catch (e) {
-        showToast('Erro ao conectar. Verifique a internet.', 'erro');
         console.error(e);
     }
     hideLoading();
@@ -372,24 +375,51 @@ function parseCifraEmTokens(linhaAcorde, linhaLetra) {
     const tokens = [];
     const regexAcorde = /\S+/g;
     let match;
-    const acordesPosicao = [];
+    const acordes = [];
+
     while ((match = regexAcorde.exec(linhaAcorde)) !== null) {
-        acordesPosicao.push({ acorde: match[0], pos: match.index });
+        acordes.push({ acorde: match[0], pos: match.index });
     }
-    if (!acordesPosicao.length) {
-        return [{ acorde: '', texto: linhaLetra }];
+
+    if (!acordes.length) {
+        return [{ acorde: '', texto: linhaLetra || '' }];
     }
-    for (let i = 0; i < acordesPosicao.length; i++) {
-        const inicio = acordesPosicao[i].pos;
-        const fim = i + 1 < acordesPosicao.length ? acordesPosicao[i + 1].pos : linhaLetra.length;
-        const texto = linhaLetra.slice(inicio, fim) || '';
-        tokens.push({ acorde: acordesPosicao[i].acorde, texto });
+
+    const posAjustadas = acordes.map((a) => {
+        let pos = a.pos;
+        if (pos >= linhaLetra.length) return linhaLetra.length;
+        if (pos > 0 && linhaLetra[pos] !== ' ' && linhaLetra[pos - 1] !== ' ') {
+            const espacoAntes = linhaLetra.lastIndexOf(' ', pos);
+            pos = espacoAntes === -1 ? 0 : espacoAntes + 1;
+        }
+        return pos;
+    });
+
+    const posUnicas = [...new Set([0, ...posAjustadas])].sort((a, b) => a - b);
+
+    for (let i = 0; i < posUnicas.length; i++) {
+        const inicio = posUnicas[i];
+        const fim = i + 1 < posUnicas.length ? posUnicas[i + 1] : linhaLetra.length;
+        const textoLimpo = linhaLetra.slice(inicio, fim).trimStart();
+
+        let acordeNaPos = '';
+        for (let j = 0; j < acordes.length; j++) {
+            if (posAjustadas[j] === inicio) {
+                acordeNaPos = acordes[j].acorde;
+                break;
+            }
+        }
+
+        if (textoLimpo) tokens.push({ acorde: acordeNaPos, texto: textoLimpo });
     }
-    if (acordesPosicao[0].pos > 0) {
-        const prefixo = linhaLetra.slice(0, acordesPosicao[0].pos);
-        if (prefixo.trim()) tokens.unshift({ acorde: '', texto: prefixo });
-    }
-    return tokens;
+
+    acordes.forEach((a, j) => {
+        if (posAjustadas[j] >= linhaLetra.length) {
+            tokens.push({ acorde: a.acorde, texto: '' });
+        }
+    });
+
+    return tokens.length ? tokens : [{ acorde: '', texto: linhaLetra }];
 }
 
 function renderCifraModal(cifraTexto, semitons) {
@@ -400,23 +430,25 @@ function renderCifraModal(cifraTexto, semitons) {
 
     while (i < linhas.length) {
         const linha = linhas[i];
+        const proxima = linhas[i + 1];
 
         if (isLinhaAcorde(linha)) {
             const linhaTransposta = transporLinha(linha, semitons);
-            const proxima = linhas[i + 1];
 
-            if (proxima !== undefined && !isLinhaAcorde(proxima)) {
+            if (proxima !== undefined && proxima.trim() !== '' && !isLinhaAcorde(proxima)) {
+    
                 const tokens = parseCifraEmTokens(linhaTransposta, proxima);
                 html += `<span class="cifra-bloco-inline">`;
                 tokens.forEach(t => {
                     html += `<span class="cifra-token">` +
-                        `<span class="cifra-token-acorde">${t.acorde ? escapeHtml(t.acorde) : '&nbsp;'}</span>` +
-                        `<span class="cifra-token-letra">${t.texto ? escapeHtml(t.texto) : ''}</span>` +
+                        `<span class="cifra-token-acorde">${t.acorde ? escapeHtml(t.acorde) : '\u00A0'}</span>` +
+                        `<span class="cifra-token-letra">${escapeHtml(t.texto)}</span>` +
                         `</span>`;
                 });
                 html += `</span>\n`;
                 i += 2;
             } else {
+        
                 html += `<span class="cifra-linha-acorde">${escapeHtml(linhaTransposta)}\n</span>`;
                 i++;
             }

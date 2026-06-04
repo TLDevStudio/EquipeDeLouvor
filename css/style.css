@@ -1610,11 +1610,15 @@ footer {
 }
 
 .cifra-bloco-inline {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
   white-space: normal;
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: normal;
   line-height: 1;
   margin-bottom: 0.2em;
+  gap: 0 4px;
 }
 
 .cifra-token {
@@ -1622,7 +1626,8 @@ footer {
   flex-direction: column;
   align-items: flex-start;
   vertical-align: bottom;
-  margin-right: 0;
+  white-space: nowrap;
+  max-width: 100%;
 }
 
 .cifra-token-acorde {
@@ -1640,7 +1645,7 @@ footer {
   font-size: 1em;
   color: var(--cream);
   line-height: 1.5;
-  white-space: pre-wrap;
+  white-space: nowrap;
 }
 
 @media (max-width: 600px) {
