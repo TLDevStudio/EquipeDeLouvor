@@ -1648,6 +1648,22 @@ footer {
   white-space: nowrap;
 }
 
+.cifra-linha-tab {
+  display: block;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: pre;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  scrollbar-width: none;
+}
+
+.cifra-linha-tab::-webkit-scrollbar {
+  display: none;
+}
+
 @media (max-width: 600px) {
   .cifras-grid {
     grid-template-columns: 1fr;

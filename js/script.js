@@ -432,23 +432,37 @@ function renderCifraModal(cifraTexto, semitons) {
         const linha = linhas[i];
         const proxima = linhas[i + 1];
 
-        if (isLinhaAcorde(linha)) {
+        if (isLinhaTab(linha)) {
+
+            html += `<span class="cifra-linha-tab">${escapeHtml(linha)}\n</span>`;
+            i++;
+        } else if (isLinhaAcorde(linha)) {
             const linhaTransposta = transporLinha(linha, semitons);
 
-            if (proxima !== undefined && proxima.trim() !== '' && !isLinhaAcorde(proxima)) {
-    
+            if (proxima !== undefined && proxima.trim() !== '' && !isLinhaAcorde(proxima) && !isLinhaTab(proxima)) {
                 const tokens = parseCifraEmTokens(linhaTransposta, proxima);
                 html += `<span class="cifra-bloco-inline">`;
                 tokens.forEach(t => {
-                    html += `<span class="cifra-token">` +
-                        `<span class="cifra-token-acorde">${t.acorde ? escapeHtml(t.acorde) : '\u00A0'}</span>` +
-                        `<span class="cifra-token-letra">${escapeHtml(t.texto)}</span>` +
-                        `</span>`;
+
+                    const palavras = t.texto.trim().split(' ').filter(Boolean);
+                    if (palavras.length <= 1) {
+                        html += `<span class="cifra-token">` +
+                            `<span class="cifra-token-acorde">${t.acorde ? escapeHtml(t.acorde) : '\u00A0'}</span>` +
+                            `<span class="cifra-token-letra">${escapeHtml(t.texto)}</span>` +
+                            `</span>`;
+                    } else {
+
+                        palavras.forEach((palavra, idx) => {
+                            html += `<span class="cifra-token">` +
+                                `<span class="cifra-token-acorde">${idx === 0 && t.acorde ? escapeHtml(t.acorde) : '\u00A0'}</span>` +
+                                `<span class="cifra-token-letra">${escapeHtml(palavra)}</span>` +
+                                `</span>`;
+                        });
+                    }
                 });
                 html += `</span>\n`;
                 i += 2;
             } else {
-        
                 html += `<span class="cifra-linha-acorde">${escapeHtml(linhaTransposta)}\n</span>`;
                 i++;
             }
@@ -462,6 +476,10 @@ function renderCifraModal(cifraTexto, semitons) {
     }
 
     corpo.innerHTML = html;
+}
+
+function isLinhaTab(linha) {
+    return /^[EADGBe]\|/.test(linha.trim());
 }
 
 const NOTAS_S = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
