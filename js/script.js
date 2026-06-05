@@ -507,14 +507,17 @@ function transporNota(nota, semitons) {
         : NOTAS_S[novo];
 }
 
-const REGEX_ACORDE = /\b([A-G][b#]?)(m|maj|dim|aug|sus|add)?(\d*)([/]([A-G][b#]?))?\b/g;
+const REGEX_ACORDE = /\b([A-G][b#]?)(m|maj|dim|aug|sus|add|M)?(7M|maj7|m7|7|9|11|13|6|4|2|sus2|sus4|add9|dim7|m7b5|aug7)?(\d*)([/]([A-G][b#]?))?\b/g;
 
 function transporLinha(linha, semitons) {
     if (semitons === 0) return linha;
-    return linha.replace(REGEX_ACORDE, (match, raiz, qualidade, ext, _, baixo) => {
+    return linha.replace(REGEX_ACORDE, (match, raiz, qualidade, ext, num, _, baixo) => {
+        if (!raiz) return match;
+        const idx = indexNota(raiz);
+        if (idx === -1) return match;
         const novaRaiz = transporNota(raiz, semitons);
         const novoBaixo = baixo ? '/' + transporNota(baixo, semitons) : '';
-        return novaRaiz + (qualidade || '') + (ext || '') + novoBaixo;
+        return novaRaiz + (qualidade || '') + (ext || '') + (num || '') + novoBaixo;
     });
 }
 

@@ -1,0 +1,31 @@
+<div class="music-card">
+  <div class="music-info">
+    <h4>Nome da Música</h4>       
+    <p>Nome do Artista</p>         
+    <p>Tom: X</p>                  
+    <div class="audio-player-wrap">
+      <audio id="audio-02" src="./music/nome-arquivo.mp3" preload="none"></audio>
+      <div class="custom-player" data-audio="audio-02">
+        <button class="cp-play-btn" onclick="togglePlay('audio-02', this)" aria-label="Play/Pause">
+          <svg class="cp-icon-play" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+          <svg class="cp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+          </svg>
+        </button>
+        <div class="cp-progress-wrap">
+          <div class="cp-progress-bar">
+            <div class="cp-progress-fill" id="fill-audio-02"></div>
+            <div class="cp-progress-thumb" id="thumb-audio-02"></div>
+          </div>
+        </div>
+        <span class="cp-time" id="time-audio-02">0:00</span>
+      </div>
+    </div>
+  </div>
+  <div class="music-actions">
+    <span class="music-tag">Louvor</span> 
+  </div>
+</div>
+
